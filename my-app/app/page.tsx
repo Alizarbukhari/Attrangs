@@ -15,7 +15,7 @@ export default function Home() {
 
 <Text1/>
 <Card/>
-<Footer/>
+
 
 
     </div>

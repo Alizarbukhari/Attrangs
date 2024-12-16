@@ -15,9 +15,7 @@ function Product() {
         <Productheader/>
         <Wishlist/>
         
-        <Footer/>
-
-
+  
     </div>
   )
 }

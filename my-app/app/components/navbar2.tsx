@@ -1,8 +1,8 @@
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
-import { IoBagOutline } from "react-icons/io5";
-import { CiSearch } from "react-icons/ci";
+import { RiShoppingBag3Line } from "react-icons/ri";
+import { FiSearch } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { FcCloseUpMode } from "react-icons/fc";
@@ -23,12 +23,13 @@ export default function Navbar2() {
           ))}
         </div>
       {/* icons div */}
-      <div className="text-4xl flex text-white gap-3">
-        <div><FiUser/></div>
-        <div><CiSearch/></div>
-        <div>< FaRegHeart/></div>
-        <div> <IoBagOutline/></div>
-      </div>
+  <div className="text-2xl flex text-white gap-5 -mt-3">
+  <Link href={"/login"}><div className="w-[18px] h-[18px]"><FiUser /></div></Link>
+  <div className="w-[18px] h-[18px]"><RiShoppingBag3Line /></div>
+  <div className="w-[18px] h-[18px]"><FaRegHeart /></div>
+  <div className="w-[18px] h-[18px]"><FiSearch /></div>
+</div>
+
     </div>
     {/* mobile view div start */}
     <div className="px-4 md:hidden">
@@ -44,9 +45,9 @@ export default function Navbar2() {
       
       {/* icons div */}
       <div className="text-3xl flex text-white gap-3">
-      <div><CiSearch/></div>
+      <div><FiSearch/></div>
         <div><FiUser/></div>
-        <div> <IoBagOutline/></div>
+        <div> <RiShoppingBag3Line/></div>
       </div>
 
     </div>

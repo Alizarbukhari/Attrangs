@@ -4,6 +4,7 @@ import "./globals.css";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Providers from "./addtocart/layout";
+import Footer from "./components/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <Providers>
         {children}</Providers>
+        <Footer/>
       </body>
     </html>
   );

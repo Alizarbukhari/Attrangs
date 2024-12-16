@@ -6,6 +6,9 @@ import { CiSearch } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { FcCloseUpMode } from "react-icons/fc";
+import { RiShoppingBag3Line } from "react-icons/ri";
+import { FiSearch } from "react-icons/fi";
+
 import { MdKeyboardArrowDown } from "react-icons/md";
 export default function Navbar3() {
   return (
@@ -23,12 +26,12 @@ export default function Navbar3() {
           ))}
         </div>
       {/* icons div */}
-      <div className="text-4xl flex text-[#877b73] gap-3">
-        <div><FiUser/></div>
-        <div><CiSearch/></div>
-        <div>< FaRegHeart/></div>
-        <div> <IoBagOutline/></div>
-      </div>
+      <div className="text-2xl flex text-[#877b73] gap-5 -mt-3">
+  <Link href={"/login"}><div className="w-[18px] h-[18px]"><FiUser /></div></Link>
+  <div className="w-[18px] h-[18px]"><RiShoppingBag3Line /></div>
+  <div className="w-[18px] h-[18px]"><FaRegHeart /></div>
+  <div className="w-[18px] h-[18px]"><FiSearch /></div>
+</div>
     </div>
     {/* mobile view div start */}
     <div className="px-4 md:hidden">
