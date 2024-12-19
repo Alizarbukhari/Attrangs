@@ -55,7 +55,7 @@ export default function LoginPage() {
             Forgot Password
           </Link>
           <span>|</span>
-          <Link href="/signup" className="hover:underline">
+          <Link href="/sign_up" className="hover:underline">
             User Signup
           </Link>
         </div>

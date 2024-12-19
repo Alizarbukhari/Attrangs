@@ -1,12 +1,12 @@
 import React from 'react'
-import Navebarst from '../components/_navebarsetting/navebarst'
 import LoginPage from './_components/login'
+import PageLayout from '../components/sliderNavebar'
 
 
 function Login() {
   return (
     <>
-    <Navebarst/>
+    <PageLayout/>
     <LoginPage/>
    
 
