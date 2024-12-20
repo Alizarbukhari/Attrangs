@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="flex bg-white">
       {/* Login Form */}
       <div className="w-[540px] mx-auto mt-20 px-4">
         <h1 className="text-[#282828] text-center font-light text-2xl md:text-[30px]">LOGIN</h1>

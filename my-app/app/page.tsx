@@ -1,6 +1,5 @@
 
 import Card from "./components/card"
-import Footer from "./components/footer"
 import Header from "./components/header"
 import Navbar1 from "./components/navbar1"
 import Text1 from "./components/text1"
