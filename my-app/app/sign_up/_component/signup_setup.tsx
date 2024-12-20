@@ -39,7 +39,7 @@ const Signup_Setup = () => {
 
       {/* Title */}
       <div className="mt-10 text-center">
-        <h2 className="text-[#282828] text-[24px] font-normal">Join the Membership</h2>
+        <h2 className="text-[#282828] text-[24px] font-normal">회원가입</h2>
       </div>
 
       {/* Steps Indicator */}
@@ -57,7 +57,7 @@ const Signup_Setup = () => {
               currentStep === 1 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            01 Agree to Terms of Use
+            01 이용약관 동의
           </p>
         </div>
 
@@ -74,7 +74,7 @@ const Signup_Setup = () => {
               currentStep === 2 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            02 Enter Member Information
+            02 회원정보 입력
           </p>
         </div>
 
@@ -91,7 +91,7 @@ const Signup_Setup = () => {
               currentStep === 3 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            03 Complete Membership Registration
+              03 가입완료
           </p>
         </div>
       </div>

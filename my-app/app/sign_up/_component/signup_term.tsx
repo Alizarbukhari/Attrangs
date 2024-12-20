@@ -1,12 +1,9 @@
-// signup_term.tsx
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Conditional from './conditional';
 import { SignupTermProps } from '@/app/types/signupTypes';
 
-
-
 const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
-  // State variables to manage agreements and confirmations
   const [agreed, setAgreed] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
@@ -29,37 +26,28 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
 
   const handleCheck = () => {
     if (!agreed) {
-      alert("Aapko terms ko agree karna hoga aage badhne ke liye.");
-      return;
-    }
-
-    const ageRadios = document.getElementsByName('age') as NodeListOf<HTMLInputElement>;
-    let selectedAge = false;
-    for (const radio of ageRadios) {
-      if (radio.checked && radio.value === 'over14') {
-        selectedAge = true;
-        break;
-      }
-    }
-    if (!selectedAge) {
-      alert('Aapko apni umar confirm karni hogi.');
-      return;
-    }
-    if (!agreedToPrivacy) {
-      alert("Aapko Privacy Policy ko agree karna hoga.");
+      toast.error("Aapko terms ko agree karna hoga aage badhne ke liye.", {
+        position: "top-right",
+        autoClose: 5000,
+      });
       return;
     }
 
     if (!ageConfirmed) {
-      alert('Aapko apni umar confirm karni hogi.');
+      toast.error("Aapko apni umar confirm karni hogi.", {
+        position: "top-right",
+        autoClose: 5000,
+      });
       return;
     }
 
     if (!agreedToPrivacy) {
-      alert('Aapko Privacy Policy se agree karna hoga.');
+      toast.error("Aapko Privacy Policy ko agree karna hoga.", {
+        position: "top-right",
+        autoClose: 5000,
+      });
       return;
     }
-
 
     onAgree();
   };
@@ -68,7 +56,7 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
     <>
       {/* Terms of Service Section */}
       <div className="w-[90%] mx-auto h-[520px] p-[25px] border border-[#dbdbdb] overflow-auto">
-  <h1 className="text-[1.5em] font-bold text-center mb-4">Terms of Service</h1>
+        <h1 className="text-[1.5em] font-bold text-center mb-4">Terms of Service</h1>
 
         <p className="text-[12px] text-[#808080] leading-[160%] mt-2 whitespace-pre-wrap"><strong>Article 1 (Purpose)</strong></p>
         <p className="text-[12px] text-[#808080] leading-[160%] my-2 whitespace-pre-wrap">These terms and conditions are intended to regulate the rights, obligations, and responsibilities of the cyber mall and users in using the Internet-related services (hereinafter referred to as &quot;services&quot;) provided by the Atrangs Cyber Mall (hereinafter referred to as &quot;Mall&quot;) operated by Atrangs Company (e-commerce business operator).</p>
@@ -89,9 +77,6 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
         <p className="text-[12px] text-[#808080] leading-[160%] mt-2 whitespace-pre-wrap">⑥ Matters not specified in these Terms and Conditions and the interpretation of these Terms and Conditions shall be governed by the Act on Consumer Protection in Electronic Commerce, etc., the Act on Regulation of Terms and Conditions, etc., the Consumer Protection Guidelines in Electronic Commerce, etc. established by the Fair Trade Commission, and related laws and regulations or customary practices.</p>
       </div>
 
-
-
-
       {/* Agreement Radio Buttons */}
       <Conditional onAgreeChange={handleAgreeChange} />
 
@@ -101,23 +86,25 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
         <table className="p-4 border border-slate-400 my-6 text-[12px] text-[#808080] mt-2 w-full">
           <thead>
             <tr>
-              <th className="border p-1">Purpose of Collection</th>
-              <th className="border p-1">Collection Items</th>
-              <th className="border p-1">Holding Period</th>
+             
+              
+              <th className="border p-1">수집 목적</th>
+              <th className="border p-1">수집 항목</th>
+              <th className="border p-1">보유 기간</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td className="border p-1">
-                Confirmation of intent to join membership, user identification and identity verification, maintenance and management of membership qualifications, contact for contract performance and notification of changes to terms and conditions, confirmation of intent and handling of customer complaints such as civil complaints, prevention of fraudulent use, prevention of unauthorized use and provision of services and contract performance, securing a smooth communication channel for service use and consultation, inquiries, reviews, etc., provision of customized member services, provision of base-based services
-              </td>
-              <td className="border p-1">Name, ID, password, mobile phone number, email, address</td>
-              <td className="border p-1">Upon withdrawal of membership, the information will be destroyed immediately. To prevent misuse, the information will be stored for 30 days (ID, mobile phone number) and then destroyed.</td>
+              회원가입 의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격 유지·관리, 서비스 부정이용 방지, 각종 고지·통지, 고충처리, 분쟁 조정을 위한 기록 보존              </td>
+              <td className="border p-1">
+              이름, 아이디, 비밀번호, 휴대폰번호, 이메일, 주소                </td>
+              <td className="border p-1">회원 탈퇴 시 즉시 파기. 단, 부정이용 방지를 위해 30일간 보관 (아이디, 휴대폰번호) 후 파기</td>
             </tr>
             <tr>
-              <td className="border p-1">Record management for analysis of service visit and usage history, prevention of fraudulent use, etc.</td>
-              <td className="border p-1">Service usage history, IP address, cookies, MAC address, mobile device information (advertising identifier, OS/app version)</td>
-              <td className="border p-1">Destroyed immediately upon withdrawal of membership or achievement of purpose of use</td>
+              <td className="border p-1">서비스 방문 및 이용기록 분석, 부정이용 방지 등을 위한 기록 관리</td>
+              <td className="border p-1">서비스 이용기록, IP 주소, 쿠키, MAC 주소, 모바일 기기정보(광고식별자, OS/앱 버전)</td>
+              <td className="border p-1">회원 탈퇴 시 또는 이용목적 달성 시 즉시 파기</td>
             </tr>
           </tbody>
         </table>

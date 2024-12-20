@@ -43,7 +43,7 @@ const ConfirmRegistration: React.FC<ConfirmRegistrationProps> = ({ formData }) =
 
   if (isSuccess) {
     return (
-      <div className="w-[90%] h-[300px] flex flex-col items-center justify-center mx-auto p-[25px] border border-[#dbdbdb] overflow-auto">
+      <div className="w-full h-[300px] flex flex-col items-center justify-center mx-auto p-[25px] border border-[#dbdbdb] overflow-auto">
         <h2 className="text-2xl font-bold text-green-600 mb-4">Registration Successful!</h2>
         <p className="text-lg text-gray-700">Thank you for registering. You can now log in with your credentials.</p>
         <button
@@ -57,10 +57,10 @@ const ConfirmRegistration: React.FC<ConfirmRegistrationProps> = ({ formData }) =
   }
 
   return (
-    <div className="w-[90%] h-[300px] flex items-center justify-center mx-auto p-[25px] border border-[#dbdbdb] overflow-auto">
+    <div className="w-full h-[300px] flex items-center justify-center mx-auto p-[25px] border border-[#dbdbdb] overflow-auto">
       <div className="my-10 flex justify-center">
         <button
-          className={`block mx-2 text-[15px] bg-black text-white cursor-pointer py-3 px-14 ${
+          className={`block mx-2 text-[15px] w-full bg-black text-white cursor-pointer py-3 px-14 ${
             isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
           }`}
           onClick={handleConfirm}
