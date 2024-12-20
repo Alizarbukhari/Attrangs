@@ -7,23 +7,7 @@ import Link from 'next/link';
 import Signup_Term from './signup_term';
 import SignupForm from "../_component/sighn-up-form";
 import ConfirmRegistration from '../_component/registerd';
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phonePrefix: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  receiveSms: boolean;
-  email: string;
-  receiveEmail: boolean;
-  referrerId: string;
-}
+import {FormData} from '@/app/types/signuptypes';
 
 const Signup_Setup = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -55,7 +39,7 @@ const Signup_Setup = () => {
 
       {/* Title */}
       <div className="mt-10 text-center">
-        <h2 className="text-[#282828] text-[24px] font-normal">Join the Membership</h2>
+        <h2 className="text-[#282828] text-[24px] font-normal">회원가입</h2>
       </div>
 
       {/* Steps Indicator */}
@@ -73,7 +57,7 @@ const Signup_Setup = () => {
               currentStep === 1 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            01 Agree to Terms of Use
+            01 이용약관 동의
           </p>
         </div>
 
@@ -90,7 +74,7 @@ const Signup_Setup = () => {
               currentStep === 2 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            02 Enter Member Information
+            02 회원정보 입력
           </p>
         </div>
 
@@ -107,7 +91,7 @@ const Signup_Setup = () => {
               currentStep === 3 ? 'font-bold text-[#333]' : 'font-normal text-[#888]'
             }`}
           >
-            03 Complete Membership Registration
+              03 가입완료
           </p>
         </div>
       </div>

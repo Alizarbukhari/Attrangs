@@ -9,7 +9,7 @@ import { Eye, EyeOff } from 'lucide-react'
 
 
 import Image from "next/image"
-import { loginType } from "@/app/types/logintype"
+import { loginType } from "@/app/types/loginType"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -25,7 +25,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="flex bg-white">
       {/* Login Form */}
       <div className="w-[540px] mx-auto mt-20 px-4">
         <h1 className="text-[#282828] text-center font-light text-2xl md:text-[30px]">LOGIN</h1>

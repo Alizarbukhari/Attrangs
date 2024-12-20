@@ -1,4 +1,4 @@
-import type { SlideData_Types } from "../types/slidetype"
+import type { SlideData_Types } from "@/app/types/slidetype"
 export  const slideData: SlideData_Types[] = [{
     id: 0,
     image: "/Header/header1.jpg",

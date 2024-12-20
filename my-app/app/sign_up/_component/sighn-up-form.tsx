@@ -2,36 +2,8 @@
 "use client";
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import {FormData ,FormErrors} from '@/app/types/signuptypes';
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phonePrefix: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  receiveSms: boolean;
-  email: string;
-  receiveEmail: boolean;
-  referrerId: string;
-}
-
-interface FormErrors {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  email: string;
-}
 
 interface SignupFormProps {
   onComplete: (data: FormData) => void;
@@ -322,7 +294,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onComplete }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-[930px] h-auto p-[25px] flex flex-col flex-wrap border border-[#dbdbdb] ">
+      <div className="w-full h-auto p-[25px] flex flex-col flex-wrap border border-[#dbdbdb] ">
         {/* First Name */}
         <div className="w-[80%] mx-auto mb-[23px]">
           <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">

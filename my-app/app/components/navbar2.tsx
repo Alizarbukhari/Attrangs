@@ -1,19 +1,35 @@
+"use client"
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
-import { HiOutlineBars3 } from "react-icons/hi2";
+import { HiOutlineBars3  } from "react-icons/hi2";
+import { HiOutlineX } from "react-icons/hi";
 import { FcCloseUpMode } from "react-icons/fc";
-import { MdKeyboardArrowDown } from "react-icons/md";
+
+import { useState } from "react";
+
+import NavArrowBar from "./navarrowbar";
 export default function Navbar2() {
+    const [isShow, setIsShow] = useState(false);
+
+    const handleShow = () => {
+      setIsShow(true);
+    };
+  
+    const handleClose = () => {
+      setIsShow(false);
+    };
   return (
     <>
     <div className="w-full h-auto ">
     <div className='w-full h-auto md:h-[80px] hidden md:flex gap-6  items-center justify-center'>
       {/* name div */}
-      <div className="text-3xl tracking-[5px] text-white font-semibold">ATTRANGS</div>
+      <div className="text-3xl tracking-[5px] text-white font-semibold">
+       <Link href={"/"}>  ATTRANGS </Link>
+        </div>
       {/* link page div */}
       <div className="flex gap-4">
           {APP_LINKS.map((link, index) => (
@@ -37,9 +53,28 @@ export default function Navbar2() {
     <div className='w-[100%] h-[80px]  flex flex-wrap justify-between items-center '>
       {/* 1st icon div */}
       <div className="text-3xl flex text-white gap-3">
-        <div><HiOutlineBars3/></div>
+        <div><HiOutlineBars3 onClick={handleShow} className="cursor-pointer"/></div>
         <div><FaRegHeart/></div>
       </div>
+          {/* Sidebar Overlay */}
+           {isShow && (
+            <div className="fixed inset-0 bg-white h-screen z-20 flex flex-col">
+              {/* Close Icon */}
+              <div className="flex justify-end p-4">
+                <HiOutlineX onClick={handleClose} className="text-2xl cursor-pointer" />
+              </div>
+              
+              {/* Navigation Links */}
+              <div className="flex flex-col mx-8 items-start gap-8 mt-6">
+                {APP_LINKS.map((link, index) => (
+                  <Link href={link.href} key={index}>
+                    <p className="text-xl text-black hover:text-gray-700">{link.name}</p>
+                  </Link>
+                ))}
+
+              </div>
+            </div>
+          )}
       {/* name div */}
       <div className="text-xl text-white tracking-[5px] font-semibold">ATTRANGS</div>
       
@@ -60,7 +95,7 @@ export default function Navbar2() {
         <div>N in</div>
       </div>
       {/* right div */}
-      <div className="text-white flex text-xl items-center"> <MdKeyboardArrowDown/></div>
+      <div><NavArrowBar bgColor=""/></div>
     </div>
 
     
@@ -72,6 +107,159 @@ export default function Navbar2() {
     </>
   )
 }
+
+
+
+// "use client";
+
+// import { APP_LINKS } from "../utils/constant";
+// import Link from "next/link";
+// import { FaRegHeart } from "react-icons/fa";
+// import { RiShoppingBag3Line } from "react-icons/ri";
+// import { FiSearch, FiUser } from "react-icons/fi";
+// import { HiOutlineBars3 } from "react-icons/hi2";
+// import { FcCloseUpMode } from "react-icons/fc";
+// import { MdKeyboardArrowDown } from "react-icons/md";
+// import { HiOutlineX } from "react-icons/hi"; // Import Close Icon
+// import { useState } from "react";
+// // import Navbar3 from "./navbar3"; // Assuming you don't need this
+// // import ShowNav from "./showNav"; // We will handle sidebar here
+
+// export default function Navbar2() {
+//   const [isShow, setIsShow] = useState(false);
+
+//   const handleShow = () => {
+//     setIsShow(true);
+//   };
+
+//   const handleClose = () => {
+//     setIsShow(false);
+//   };
+
+//   return (
+//     <>
+//       <div className="w-full h-auto ">
+//         {/* Desktop View */}
+//         <div className="w-full h-auto md:h-[80px] hidden md:flex gap-6 items-center justify-center bg-black">
+//           {/* Name Div */}
+//           <div className="text-3xl tracking-[5px] text-white font-semibold">ATTRANGS</div>
+          
+//           {/* Link Page Div */}
+//           <div className="flex gap-4">
+//             {APP_LINKS.map((link, index) => (
+//               <Link href={link.href} key={index}>
+//                 <p className="font-medium text-white hover:text-gray-300">{link.name}</p>
+//               </Link>
+//             ))}
+//           </div>
+          
+//           {/* Icons Div */}
+//           <div className="text-2xl flex text-white gap-5 -mt-3">
+//             <Link href="/login">
+//               <div className="w-[18px] h-[18px]">
+//                 <FiUser />
+//               </div>
+//             </Link>
+//             <Link href="/cart">
+//               <div className="w-[18px] h-[18px]">
+//                 <RiShoppingBag3Line />
+//               </div>
+//             </Link>
+//             <Link href="/wishlist">
+//               <div className="w-[18px] h-[18px]">
+//                 <FaRegHeart />
+//               </div>
+//             </Link>
+//             <div className="w-[18px] h-[18px]">
+//               <FiSearch />
+//             </div>
+//           </div>
+//         </div>
+        
+//         {/* Mobile View */}
+//         <div className="px-4 md:hidden">
+//           {/* Top Bar */}
+//           <div className="w-full h-[80px] flex justify-between items-center bg-black">
+//             {/* Left Icons */}
+//             <div className="text-3xl flex text-white gap-3">
+//               <HiOutlineBars3 onClick={handleShow} className="cursor-pointer" />
+//               <FaRegHeart />
+//             </div>
+            
+//             {/* Brand Name */}
+//             <div className="text-xl text-white tracking-[5px] font-semibold">ATTRANGS</div>
+            
+//             {/* Right Icons */}
+//             <div className="text-3xl flex text-white gap-3">
+//               <FiSearch />
+//               <FiUser />
+//               <RiShoppingBag3Line />
+//             </div>
+//           </div>
+          
+//           {/* Sidebar Overlay */}
+//           {isShow && (
+//             <div className="fixed inset-0 bg-white z-50 flex flex-col">
+//               {/* Close Icon */}
+//               <div className="flex justify-end p-4">
+//                 <HiOutlineX onClick={handleClose} className="text-2xl cursor-pointer" />
+//               </div>
+              
+//               {/* Navigation Links */}
+//               <div className="flex flex-col items-center space-y-6 mt-10">
+//                 {APP_LINKS.map((link, index) => (
+//                   <Link href={link.href} key={index}>
+//                     <p className="text-xl text-black hover:text-gray-700">{link.name}</p>
+//                   </Link>
+//                 ))}
+//                 {/* Additional Links (e.g., Home, About) */}
+//                 <Link href="/">
+//                   <p className="text-xl text-black hover:text-gray-700">Home</p>
+//                 </Link>
+//                 <Link href="/about">
+//                   <p className="text-xl text-black hover:text-gray-700">About</p>
+//                 </Link>
+//                 <Link href="/services">
+//                   <p className="text-xl text-black hover:text-gray-700">Services</p>
+//                 </Link>
+//                 <Link href="/contact">
+//                   <p className="text-xl text-black hover:text-gray-700">Contact</p>
+//                 </Link>
+//                 {/* Add more links as needed */}
+//               </div>
+//             </div>
+//           )}
+          
+//           {/* Additional Mobile Menu (if needed) */}
+//           <div className="flex justify-between mt-4">
+//             <div className="text-xl text-white flex gap-4">
+//               <Link href="/best">
+//                 <div>BEST</div>
+//               </Link>
+//               <Link href="/news">
+//                 <div>NEWS</div>
+//               </Link>
+//               <Link href="/flower">
+//                 <div className="flex gap-1 items-center">
+//                   FLOWER <FcCloseUpMode className="text-2xl" />
+//                 </div>
+//               </Link>
+//               <Link href="/nin">
+//                 <div>N in</div>
+//               </Link>
+//             </div>
+            
+//             {/* Right Div */}
+//             <div className="text-white flex text-xl items-center">
+//               <MdKeyboardArrowDown />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
 
 
 

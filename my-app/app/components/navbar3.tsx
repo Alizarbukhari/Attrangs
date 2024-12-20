@@ -1,15 +1,17 @@
+
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { IoBagOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import { FcCloseUpMode } from "react-icons/fc";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 
-import { MdKeyboardArrowDown } from "react-icons/md";
+
+import ShowNav from "./shownav";
+import NavArrowBar from "./navarrowbar";
 export default function Navbar3() {
   return (
     <>
@@ -39,7 +41,7 @@ export default function Navbar3() {
     <div className='w-[100%] h-[80px]  flex flex-wrap justify-between  bg-white items-center '>
       {/* 1st icon div */}
       <div className="text-3xl flex text-[#877b73] gap-3">
-        <div><HiOutlineBars3/></div>
+        <div><ShowNav/></div>
         <div><FaRegHeart/></div>
       </div>
       {/* name div */}
@@ -62,7 +64,7 @@ export default function Navbar3() {
         <div>N in</div>
       </div>
       {/* right div */}
-      <div className="text-[#877b73] flex text-xl items-center"> <MdKeyboardArrowDown/></div>
+      <div><NavArrowBar bgColor="bg-white"/></div>
       
     </div>
 

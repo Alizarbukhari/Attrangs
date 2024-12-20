@@ -64,7 +64,7 @@ const Card: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 mb-8 lg:grid-cols-4 gap-4">
       {productData.map((product) => (
         <div key={product.id} className="w-full border p-4 rounded shadow">
           {/* Image */}
@@ -119,10 +119,11 @@ const Card: React.FC = () => {
         <button onClick={() => addToWishlist(product)} className="  rounded">
           <FaRegHeart className='text-[24px] text-gray-500'/>
           </button>
+          
           <button onClick={showCartHandler} className=" text-white flex item-center  rounded">
             <IoBagOutline className="inline-block text-[24px] text-gray-500" /> 
           </button>
-          
+         
         </div>
       </div>
     </div>
