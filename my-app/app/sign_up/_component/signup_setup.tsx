@@ -7,23 +7,7 @@ import Link from 'next/link';
 import Signup_Term from './signup_term';
 import SignupForm from "../_component/sighn-up-form";
 import ConfirmRegistration from '../_component/registerd';
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phonePrefix: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  receiveSms: boolean;
-  email: string;
-  receiveEmail: boolean;
-  referrerId: string;
-}
+import {FormData} from '@/app/types/signuptypes';
 
 const Signup_Setup = () => {
   const [currentStep, setCurrentStep] = useState(1);

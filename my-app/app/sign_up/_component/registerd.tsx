@@ -1,27 +1,7 @@
 // confirm-registration.tsx
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phonePrefix: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  receiveSms: boolean;
-  email: string;
-  receiveEmail: boolean;
-  referrerId: string;
-}
-
-interface ConfirmRegistrationProps {
-  formData: FormData;
-}
+import {ConfirmRegistrationProps} from '@/app/types/signuptypes';
 
 const ConfirmRegistration: React.FC<ConfirmRegistrationProps> = ({ formData }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

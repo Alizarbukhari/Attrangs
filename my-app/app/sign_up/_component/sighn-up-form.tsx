@@ -2,36 +2,8 @@
 "use client";
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import {FormData ,FormErrors} from '@/app/types/signuptypes';
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phonePrefix: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  receiveSms: boolean;
-  email: string;
-  receiveEmail: boolean;
-  referrerId: string;
-}
-
-interface FormErrors {
-  firstName: string;
-  lastName: string;
-  userNameId: string;
-  password: string;
-  verifyPassword: string;
-  phone: string;
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
-  email: string;
-}
 
 interface SignupFormProps {
   onComplete: (data: FormData) => void;
