@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Signup_Term from './signup_term';
 import SignupForm from "../_component/sighn-up-form";
 import ConfirmRegistration from '../_component/registerd';
-import {FormData} from '@/app/types/signuptypes';
+import {FormData} from '@/app/types/signupTypes';
 
 const Signup_Setup = () => {
   const [currentStep, setCurrentStep] = useState(1);

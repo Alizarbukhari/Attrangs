@@ -1,4 +1,4 @@
-import { PropsType } from "../types/slidetype";
+import { PropsType } from "../types/slideType";
 import Image from "next/image";
 
 const Slide: React.FC<PropsType> = ({ image }) => {
