@@ -1,4 +1,4 @@
-import { Nav_Slide_Types  } from "../types/slidetype";
+import { Nav_Slide_Types  } from "../types/slideType";
 
 
 

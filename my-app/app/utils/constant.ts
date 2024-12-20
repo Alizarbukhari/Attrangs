@@ -1,4 +1,4 @@
-import { NaveType } from "../types/slidetype";
+import { NaveType } from "../types/slideType";
 
 export const APP_LINKS: NaveType = [
   {

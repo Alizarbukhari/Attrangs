@@ -1,4 +1,4 @@
-import {slideImageProps} from '../types/slidetype'
+import {slideImageProps} from '../types/slideType'
 
 export const slideData: slideImageProps[]= [
     

@@ -1,3 +1,4 @@
+// layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -5,6 +6,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Providers from "./addtocart/layout";
 import Footer from "./components/footer";
+import { ToastContainer } from 'react-toastify'; // Import ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,8 +36,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-        {children}</Providers>
-        <Footer/>
+          {children}
+          <Footer />
+          {/* Add ToastContainer here */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnHover
+            draggable
+            pauseOnFocusLoss
+          />
+        </Providers>
       </body>
     </html>
   );
