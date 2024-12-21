@@ -294,7 +294,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onComplete }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-full h-auto p-[25px] flex flex-col flex-wrap border border-[#dbdbdb] ">
+      <div className="w-[930px] h-auto p-[25px] flex flex-col flex-wrap border border-[#dbdbdb] ">
         {/* First Name */}
         <div className="w-[80%] mx-auto mb-[23px]">
           <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
