@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Swiper as SwiperType } from 'swiper'; 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -11,7 +10,6 @@ import Navbar3 from './navbar3';
 import Navbar1 from './navbar1';
 
 export default function Navbar4() {
-  const swiperRef = useRef<SwiperType | null>(null); // Swiper reference
 
   const [isScrolled, setIsScrolled] = useState(false); // Track if scrolled
 
@@ -34,17 +32,8 @@ export default function Navbar4() {
     };
   }, []);
 
-  const handleNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slideNext(); // Navigate to next slide
-    }
-  };
+  
 
-  const handlePrev = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slidePrev(); // Navigate to previous slide
-    }
-  };
 
   return (
     <div className="w-full">

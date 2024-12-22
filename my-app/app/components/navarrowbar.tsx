@@ -5,10 +5,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import Link from 'next/link';
 import { APP_LINKS } from "../utils/constant";
 
-interface LinkItem {
-  name: string;
-  href: string;
-}
+
 interface NavArrowBarProps {
     bgColor?: string; // Optional Tailwind CSS background color class
   }

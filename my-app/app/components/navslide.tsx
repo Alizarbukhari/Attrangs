@@ -1,4 +1,4 @@
-import { Nav_Slide_Types  } from "../types/slideType";
+import { Nav_Slide_Types  } from "@/app/types/slidetype";
 
 
 

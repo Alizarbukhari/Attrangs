@@ -1,3 +1,4 @@
+
 "use client"
 import { HiOutlineBars3 } from 'react-icons/hi2'
 import { HiOutlineX } from "react-icons/hi";
@@ -40,7 +41,7 @@ export default function ShowNav() {
           )}
     </div>
     
-    
+
     </>
   )
 }

@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import {FormData ,FormErrors} from '@/app/types/signupTypes';
+import {FormData ,FormErrors} from '@/app/types/signuptypes';
 
 
 interface SignupFormProps {

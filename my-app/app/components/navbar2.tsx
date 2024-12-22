@@ -8,9 +8,9 @@ import { FiUser } from "react-icons/fi";
 import { HiOutlineBars3  } from "react-icons/hi2";
 import { HiOutlineX } from "react-icons/hi";
 import { FcCloseUpMode } from "react-icons/fc";
-import { MdKeyboardArrowDown } from "react-icons/md";
+
 import { useState } from "react";
-import ShowNav from "./shownav";
+
 import NavArrowBar from "./navarrowbar";
 export default function Navbar2() {
     const [isShow, setIsShow] = useState(false);
@@ -27,7 +27,9 @@ export default function Navbar2() {
     <div className="w-full h-auto ">
     <div className='w-full h-auto md:h-[80px] hidden md:flex gap-6  items-center justify-center'>
       {/* name div */}
-      <div className="text-3xl tracking-[5px] text-white font-semibold">ATTRANGS</div>
+      <div className="text-3xl tracking-[5px] text-white font-semibold">
+       <Link href={"/"}>  ATTRANGS </Link>
+        </div>
       {/* link page div */}
       <div className="flex gap-4">
           {APP_LINKS.map((link, index) => (

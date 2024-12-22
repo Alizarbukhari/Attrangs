@@ -5,12 +5,11 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoBagOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { FiUser } from "react-icons/fi";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import { FcCloseUpMode } from "react-icons/fc";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 
-import { MdKeyboardArrowDown } from "react-icons/md";
+
 import ShowNav from "./shownav";
 import NavArrowBar from "./navarrowbar";
 export default function Navbar3() {
