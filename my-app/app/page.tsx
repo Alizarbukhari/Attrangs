@@ -2,6 +2,7 @@
 import Card from "./components/card"
 import Header from "./components/header"
 import Navbar1 from "./components/navbar1"
+import SlideImages from "./components/slideImages"
 import Text1 from "./components/text1"
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
 <Header/>
 
 <Text1/>
+<SlideImages/>
 <Card/>
 
 
