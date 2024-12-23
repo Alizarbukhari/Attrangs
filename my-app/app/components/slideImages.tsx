@@ -46,7 +46,7 @@ export default function SlideImages() {
         {slideData.map((item, index) => (
           <SwiperSlide key={index}>
             <div className='flex flex-col justify-center w-full mb-4'>
-              <div className='h-[192px] w-full'>
+              <div className='h-[192px]  w-full'>
                 <Image 
                   src={item.image} 
                   alt={item.alt} 
