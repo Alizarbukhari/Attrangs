@@ -293,361 +293,360 @@ const SignupForm: React.FC<SignupFormProps> = ({ onComplete }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="w-[930px] h-auto p-[25px] flex flex-col flex-wrap border border-[#dbdbdb] ">
-        {/* First Name */}
-        <div className="w-[80%] mx-auto mb-[23px]">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            First Name<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className={`inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] ${
-              isSubmitted && errors.firstName ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-            } text-[14px] leading-[35px] align-middle outline-none`}
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Enter your First Name"
-          />
-          {isSubmitted && errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
-        </div>
+    <form onSubmit={handleSubmit} className="w-full min-h-screen px-0 sm:p-4">
+      <div className="w-full max-w-[930px] mx-auto bg-white">
+        <div className="w-full p-2 sm:p-4 md:p-6 border border-[#dbdbdb] rounded-lg">
+          <div className="w-full space-y-4 sm:space-y-6">
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <div className="flex flex-col md:flex-row md:items-center mb-4">
+                <label className="w-full md:w-[184px] text-[#888888] text-sm mb-2 md:mb-0">
+                  First Name<span className="text-[#cf591f]">*</span>
+                </label>
+                <input
+                  className={`w-full md:w-[330px] h-[35px] p-0 border-0 border-b-[1px] ${
+                    isSubmitted && errors.firstName ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                  } text-[14px] leading-[35px] outline-none`}
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter your First Name"
+                />
+              </div>
+              {isSubmitted && errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
+            </div>
 
-        {/* Last Name */}
-        <div className="w-[80%] mx-auto mb-[23px]">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Last Name<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className={`inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] ${
-              isSubmitted && errors.lastName ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-            } text-[14px] leading-[35px] align-middle outline-none`}
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Enter your Last Name"
-          />
-          {isSubmitted && errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
-        </div>
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <div className="flex flex-col md:flex-row md:items-center mb-4">
+                <label className="w-full md:w-[184px] text-[#888888] text-sm mb-2 md:mb-0">
+                  Last Name<span className="text-[#cf591f]">*</span>
+                </label>
+                <input
+                  className={`w-full md:w-[330px] h-[35px] p-0 border-0 border-b-[1px] ${
+                    isSubmitted && errors.lastName ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                  } text-[14px] leading-[35px] outline-none`}
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter your Last Name"
+                />
+              </div>
+              {isSubmitted && errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
+            </div>
 
-        {/* User Name ID with Check Availability Button */}
-        <div className="w-[80%] mx-auto mb-[23px] flex items-center">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            ID<span className="text-[#cf591f]">*</span>
-          </label>
-          {/* Flex Container for Input and Button */}
-          <div className="flex items-center">
-            <input
-              className={`h-[35px] w-[330px] p-0 border-0 border-b-[1px] ${
-                isSubmitted && errors.userNameId ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] outline-none`}
-              type="text"
-              name="userNameId"
-              value={formData.userNameId}
-              onChange={handleChange}
-              placeholder="Enter your ID"
-            />
-            <button
-              type="button"
-              className={`border-[#dbdbdb] border-[1px] text-sm ml-4 py-2 px-4 rounded ${
-                isAvailable
-                  ? 'bg-red-500 text-white hover:bg-red-600'
-                  : 'bg-white text-black hover:bg-gray-50'
-              } ${
-                isChecking || formData.userNameId.trim() === '' || isAvailable
-                  ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer'
-              }`}
-              onClick={checkAvailability}
-              disabled={isChecking || formData.userNameId.trim() === '' || isAvailable === true}
-            >
-              {isChecking
-                ? 'Checking...'
-                : isAvailable
-                  ? 'ID Available'
-                  : 'Check Availability'}
-            </button>
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-[184px] text-[#888888] text-sm mb-2 md:mb-0">
+                  ID<span className="text-[#cf591f]">*</span>
+                </label>
+                <div className="flex flex-col md:flex-row w-full md:w-auto gap-2">
+                  <input
+                    className="w-full md:w-[330px] h-[35px] border-b-[1px]"
+                    type="text"
+                    name="userNameId"
+                    value={formData.userNameId}
+                    onChange={handleChange}
+                    placeholder="Enter your ID"
+                  />
+                  <button
+                    type="button"
+                    className={`w-full md:w-auto border-[#dbdbdb] border-[1px] text-sm ml-4 py-2 px-4 rounded ${
+                      isAvailable
+                        ? 'bg-red-500 text-white hover:bg-red-600'
+                        : 'bg-white text-black hover:bg-gray-50'
+                    } ${
+                      isChecking || formData.userNameId.trim() === '' || isAvailable
+                        ? 'cursor-not-allowed opacity-50'
+                        : 'cursor-pointer'
+                    }`}
+                    onClick={checkAvailability}
+                    disabled={isChecking || formData.userNameId.trim() === '' || isAvailable === true}
+                  >
+                    {isChecking
+                      ? 'Checking...'
+                      : isAvailable
+                        ? 'ID Available'
+                        : 'Check Availability'}
+                  </button>
+                </div>
+              </div>
+              {isSubmitted && errors.userNameId && <p className="text-red-500 text-xs">{errors.userNameId}</p>}
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto relative">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Password<span className="text-[#cf591f]">*</span>
+              </label>
+              <input
+                className={`inline-block h-[35px] w-[330px] p-0 pr-10 border-0 border-b-[1px] ${
+                  errors.password ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                } text-[14px] leading-[35px] align-middle outline-none`}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your Password"
+              />
+              <button
+                type="button"
+                className="absolute right-0 top-0 mt-2 mr-24 text-sm text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+              {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+              {/* Password Criteria */}
+              <ul className="mt-2 text-xs">
+                <li className={`flex items-center ${formData.password.length >= 8 ? 'text-green-500' : 'text-red-500'}`}>
+                  {formData.password.length >= 8 ? '✔️' : '❌'} At least 8 characters
+                </li>
+                <li className={`flex items-center ${/[A-Z]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
+                  {/[A-Z]/.test(formData.password) ? '✔️' : '❌'} One uppercase letter
+                </li>
+                <li className={`flex items-center ${/[a-z]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
+                  {/[a-z]/.test(formData.password) ? '✔️' : '❌'} One lowercase letter
+                </li>
+                <li className={`flex items-center ${/[0-9]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
+                  {/[0-9]/.test(formData.password) ? '✔️' : '❌'} One number
+                </li>
+                <li className={`flex items-center ${/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
+                  {/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) ? '✔️' : '❌'} One special character (!@#$%^&*)
+                </li>
+              </ul>
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto relative">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Verify Password<span className="text-[#cf591f]">*</span>
+              </label>
+              <input
+                className={`inline-block h-[35px] w-[330px] p-0 pr-20 border-0 border-b-[1px] ${
+                  errors.verifyPassword ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                } text-[14px] leading-[35px] align-middle outline-none`}
+                type={showVerifyPassword ? "text" : "password"}
+                name="verifyPassword"
+                value={formData.verifyPassword}
+                onChange={handleChange}
+                placeholder="Re-enter your Password"
+              />
+              <button
+                type="button"
+                className="absolute right-0 top-0 mt-2 mr-24 text-sm text-gray-500"
+                onClick={() => setShowVerifyPassword(!showVerifyPassword)}
+              >
+                {showVerifyPassword ? 'Hide' : 'Show'}
+              </button>
+              {errors.verifyPassword && <p className="text-red-500 text-xs">{errors.verifyPassword}</p>}
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-[184px] text-[#888888] text-sm mb-2 md:mb-0">
+                  Phone Number<span className="text-[#cf591f]">*</span>
+                </label>
+                <div className="flex flex-col md:flex-row gap-2">
+                  <select
+                    className={`w-[100px] h-[35px] text-[#888888] p-0 border-0 border-b-[1px] ${
+                      isSubmitted && errors.phone ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                    } text-[14px] leading-[35px] outline-none`}
+                    name="phonePrefix"
+                    value={formData.phonePrefix}
+                    onChange={handleChange}
+                  >
+                    <option className="text-[#888]" value="010">010</option>
+                    <option className="text-[#888]" value="011">011</option>
+                    <option className="text-[#888]" value="016">016</option>
+                    <option className="text-[#888]" value="017">017</option>
+                  </select>
+                  <input
+                    className={`flex-1 h-[35px] p-0 border-0 border-b-[1px] ${
+                      isSubmitted && errors.phone ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                    } text-[14px] leading-[35px] outline-none`}
+                    type="number"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Phone Number"
+                  />
+                  <button
+                    type="button"
+                    className={`w-full md:w-auto bg-blue-500 text-white text-sm py-2 px-4 rounded hover:bg-blue-600 ${
+                      isChecking || isPhoneAuthenticated
+                        ? 'cursor-not-allowed opacity-50'
+                        : ''
+                    }`}
+                    onClick={handlePhoneAuthentication}
+                    disabled={isChecking || isPhoneAuthenticated}
+                  >
+                    {isChecking
+                      ? 'Authenticating...'
+                      : isPhoneAuthenticated
+                        ? 'Authenticated'
+                        : 'Phone Authentication'}
+                  </button>
+                </div>
+              </div>
+              {isSubmitted && errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
+              {isSubmitted && isPhoneAuthenticated && <p className="text-green-500 text-xs">Phone authenticated successfully.</p>}
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <div className="flex flex-col sm:flex-row sm:items-center">
+                <label className="w-full sm:w-[184px] text-[#888888] text-sm">
+                  Birth Date<span className="text-[#cf591f]">*</span>
+                </label>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <select
+                    className={`w-full sm:w-[100px] h-[35px] text-[#888888] sm:mx-4 px-2 border-0 border-b-[1px] ${
+                      isSubmitted && errors.birthYear ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                    } text-[14px] leading-[35px] align-middle outline-none`}
+                    name="birthYear"
+                    value={formData.birthYear}
+                    onChange={handleChange}
+                  >
+                    <option value="">Year</option>
+                    {/* Add year options */}
+                    {[...Array(100).keys()].map((i) => (
+                      <option key={i} value={2024 - i}>{2024 - i}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    className={`w-full sm:w-[100px] h-[35px] text-[#888888] sm:mx-4 px-2 border-0 border-b-[1px] ${
+                      isSubmitted && errors.birthMonth ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                    } text-[14px] leading-[35px] align-middle outline-none`}
+                    name="birthMonth"
+                    value={formData.birthMonth}
+                    onChange={handleChange}
+                  >
+                    <option value="">Month</option>
+                    {[...Array(12).keys()].map((i) => (
+                      <option key={i} value={i + 1}>{i + 1}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    className={`w-full sm:w-[100px] h-[35px] text-[#888888] sm:mx-4 px-2 border-0 border-b-[1px] ${
+                      isSubmitted && errors.birthDay ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                    } text-[14px] leading-[35px] align-middle outline-none`}
+                    name="birthDay"
+                    value={formData.birthDay}
+                    onChange={handleChange}
+                  >
+                    <option value="">Day</option>
+                    {[...Array(31).keys()].map((i) => (
+                      <option key={i} value={i + 1}>{i + 1}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              {/* Display individual errors for birth date components */}
+              {isSubmitted && errors.birthYear && <p className="text-red-500 text-xs">{errors.birthYear}</p>}
+              {isSubmitted && errors.birthMonth && <p className="text-red-500 text-xs">{errors.birthMonth}</p>}
+              {isSubmitted && errors.birthDay && <p className="text-red-500 text-xs">{errors.birthDay}</p>}
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto text-sm flex items-center gap-2">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Whether to receive SMS<span className="text-[#cf591f]">*</span>
+              </label>
+              <input
+                className="inline-block p-2 outline-none"
+                type="radio"
+                name="receiveSms"
+                value="true"
+                checked={formData.receiveSms === true}
+                onChange={handleChange}
+              />
+              <label className="text-[#888888]">Yes</label>
+              <input
+                className="inline-block p-2 outline-none"
+                type="radio"
+                name="receiveSms"
+                value="false"
+                checked={formData.receiveSms === false}
+                onChange={handleChange}
+              />
+              <label className="text-[#888888]">No</label>
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Email<span className="text-[#cf591f]">*</span>
+              </label>
+              <input
+                className={`inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] ${
+                  isSubmitted && errors.email ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
+                } text-[14px] leading-[35px] align-middle outline-none`}
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your Email"
+              />
+              {isSubmitted && errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto text-sm flex items-center gap-2">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Whether to receive emails<span className="text-[#cf591f]">*</span>
+              </label>
+              <input
+                className="inline-block p-2 outline-none"
+                type="radio"
+                name="receiveEmail"
+                value="true"
+                checked={formData.receiveEmail === true}
+                onChange={handleChange}
+              />
+              <label className="text-[#888888]">Yes</label>
+              <input
+                className="inline-block p-2 outline-none"
+                type="radio"
+                name="receiveEmail"
+                value="false"
+                checked={formData.receiveEmail === false}
+                onChange={handleChange}
+              />
+              <label className="text-[#888888]">No</label>
+            </div>
+
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+              <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
+                Referrer ID
+              </label>
+              <input
+                className="inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] border-b-[#dbdbdb] text-[14px] leading-[35px] align-middle outline-none"
+                type="text"
+                name="referrerId"
+                value={formData.referrerId}
+                onChange={handleChange}
+                placeholder="Optional"
+              />
+            </div>
           </div>
-          {isSubmitted && errors.userNameId && <p className="text-red-500 text-xs">{errors.userNameId}</p>}
         </div>
 
-        {/* Password */}
-        <div className="w-[80%] mx-auto mb-[23px] relative">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Password<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className={`inline-block h-[35px] w-[330px] p-0 pr-10 border-0 border-b-[1px] ${
-              errors.password ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-            } text-[14px] leading-[35px] align-middle outline-none`}
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your Password"
-          />
+        <div className="w-full p-4 md:p-6 flex flex-col md:flex-row justify-center gap-4">
+          <button
+            type="submit"
+            className="w-full md:w-auto text-[15px] bg-black text-white py-3 px-8 md:px-14 rounded"
+          >
+            Save
+          </button>
           <button
             type="button"
-            className="absolute right-0 top-0 mt-2 mr-24 text-sm text-gray-500"
-            onClick={() => setShowPassword(!showPassword)}
+            className="w-full md:w-auto text-[15px] bg-gray-300 text-black py-3 px-8 md:px-14 rounded"
+            onClick={resetForm}
           >
-            {showPassword ? 'Hide' : 'Show'}
+            Cancel
           </button>
-          {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
-          {/* Password Criteria */}
-          <ul className="mt-2 text-xs">
-            <li className={`flex items-center ${formData.password.length >= 8 ? 'text-green-500' : 'text-red-500'}`}>
-              {formData.password.length >= 8 ? '✔️' : '❌'} At least 8 characters
-            </li>
-            <li className={`flex items-center ${/[A-Z]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
-              {/[A-Z]/.test(formData.password) ? '✔️' : '❌'} One uppercase letter
-            </li>
-            <li className={`flex items-center ${/[a-z]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
-              {/[a-z]/.test(formData.password) ? '✔️' : '❌'} One lowercase letter
-            </li>
-            <li className={`flex items-center ${/[0-9]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
-              {/[0-9]/.test(formData.password) ? '✔️' : '❌'} One number
-            </li>
-            <li className={`flex items-center ${/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) ? 'text-green-500' : 'text-red-500'}`}>
-              {/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) ? '✔️' : '❌'} One special character (!@#$%^&*)
-            </li>
-          </ul>
         </div>
-
-        {/* Verify Password */}
-        <div className="w-[80%] mx-auto mb-[23px] relative">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Verify Password<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className={`inline-block h-[35px] w-[330px] p-0 pr-20 border-0 border-b-[1px] ${
-              errors.verifyPassword ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-            } text-[14px] leading-[35px] align-middle outline-none`}
-            type={showVerifyPassword ? "text" : "password"}
-            name="verifyPassword"
-            value={formData.verifyPassword}
-            onChange={handleChange}
-            placeholder="Re-enter your Password"
-          />
-          <button
-            type="button"
-            className="absolute right-0 top-0 mt-2 mr-24 text-sm text-gray-500"
-            onClick={() => setShowVerifyPassword(!showVerifyPassword)}
-          >
-            {showVerifyPassword ? 'Hide' : 'Show'}
-          </button>
-          {errors.verifyPassword && <p className="text-red-500 text-xs">{errors.verifyPassword}</p>}
-        </div>
-
-        {/* Phone Number */}
-        <div className="w-[80%] mx-auto flex items-center mb-[23px]">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Phone Number<span className="text-[#cf591f]">*</span>
-          </label>
-          {/* Flex Container for Prefix, Phone Input, and Authentication Button */}
-          <div className="flex items-center justify-center space-x-4">
-            <select
-              className={`h-[35px] text-[#888888] p-0 border-0 border-b-[1px] ${
-                isSubmitted && errors.phone ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] outline-none`}
-              name="phonePrefix"
-              value={formData.phonePrefix}
-              onChange={handleChange}
-            >
-              <option className="text-[#888]" value="010">010</option>
-              <option className="text-[#888]" value="011">011</option>
-              <option className="text-[#888]" value="016">016</option>
-              <option className="text-[#888]" value="017">017</option>
-            </select>
-            <input
-              className={`h-[35px] w-[220px] p-0 border-0 border-b-[1px] ${
-                isSubmitted && errors.phone ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] outline-none`}
-              type="number"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <button
-              type="button"
-              className={`bg-blue-500 text-white text-sm py-2 px-4 rounded hover:bg-blue-600 ${
-                isChecking || isPhoneAuthenticated
-                  ? 'cursor-not-allowed opacity-50'
-                  : ''
-              }`}
-              onClick={handlePhoneAuthentication}
-              disabled={isChecking || isPhoneAuthenticated}
-            >
-              {isChecking
-                ? 'Authenticating...'
-                : isPhoneAuthenticated
-                  ? 'Authenticated'
-                  : 'Phone Authentication'}
-            </button>
-          </div>
-          {isSubmitted && errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
-          {isSubmitted && isPhoneAuthenticated && <p className="text-green-500 text-xs">Phone authenticated successfully.</p>}
-        </div>
-
-        {/* Birth Date */}
-        <div className="w-[80%] mx-auto flex items-center mb-[23px] ">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Birth Date<span className="text-[#cf591f]">*</span>
-          </label>
-          <div className="flex items-center gap-2">
-            <select
-              className={`inline-block h-[35px] text-[#888888] mx-4 px-4 border-0 border-b-[1px] ${
-                isSubmitted && errors.birthYear ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] align-middle outline-none`}
-              name="birthYear"
-              value={formData.birthYear}
-              onChange={handleChange}
-            >
-              <option value="">Year</option>
-              {/* Add year options */}
-              {[...Array(100).keys()].map((i) => (
-                <option key={i} value={2024 - i}>{2024 - i}</option>
-              ))}
-            </select>
-
-            <select
-              className={`inline-block h-[35px] text-[#888888] mx-4 px-4 border-0 border-b-[1px] ${
-                isSubmitted && errors.birthMonth ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] align-middle outline-none`}
-              name="birthMonth"
-              value={formData.birthMonth}
-              onChange={handleChange}
-            >
-              <option value="">Month</option>
-              {[...Array(12).keys()].map((i) => (
-                <option key={i} value={i + 1}>{i + 1}</option>
-              ))}
-            </select>
-
-            <select
-              className={`inline-block h-[35px] text-[#888888] mx-4 px-4 border-0 border-b-[1px] ${
-                isSubmitted && errors.birthDay ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-              } text-[14px] leading-[35px] align-middle outline-none`}
-              name="birthDay"
-              value={formData.birthDay}
-              onChange={handleChange}
-            >
-              <option value="">Day</option>
-              {[...Array(31).keys()].map((i) => (
-                <option key={i} value={i + 1}>{i + 1}</option>
-              ))}
-            </select>
-          </div>
-          {/* Display individual errors for birth date components */}
-          {isSubmitted && errors.birthYear && <p className="text-red-500 text-xs">{errors.birthYear}</p>}
-          {isSubmitted && errors.birthMonth && <p className="text-red-500 text-xs">{errors.birthMonth}</p>}
-          {isSubmitted && errors.birthDay && <p className="text-red-500 text-xs">{errors.birthDay}</p>}
-        </div>
-
-        {/* SMS Preferences */}
-        <div className="w-[80%] mx-auto mb-[23px] text-sm flex items-center gap-2">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Whether to receive SMS<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className="inline-block p-2 outline-none"
-            type="radio"
-            name="receiveSms"
-            value="true"
-            checked={formData.receiveSms === true}
-            onChange={handleChange}
-          />
-          <label className="text-[#888888]">Yes</label>
-          <input
-            className="inline-block p-2 outline-none"
-            type="radio"
-            name="receiveSms"
-            value="false"
-            checked={formData.receiveSms === false}
-            onChange={handleChange}
-          />
-          <label className="text-[#888888]">No</label>
-        </div>
-
-        {/* Email */}
-        <div className="w-[80%] mx-auto mb-[23px]">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Email<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className={`inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] ${
-              isSubmitted && errors.email ? 'border-b-red-500' : 'border-b-[#dbdbdb]'
-            } text-[14px] leading-[35px] align-middle outline-none`}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your Email"
-          />
-          {isSubmitted && errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
-        </div>
-
-        {/* Email Preferences */}
-        <div className="w-[80%] mx-auto mb-[23px] text-sm flex items-center gap-2">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Whether to receive emails<span className="text-[#cf591f]">*</span>
-          </label>
-          <input
-            className="inline-block p-2 outline-none"
-            type="radio"
-            name="receiveEmail"
-            value="true"
-            checked={formData.receiveEmail === true}
-            onChange={handleChange}
-          />
-          <label className="text-[#888888]">Yes</label>
-          <input
-            className="inline-block p-2 outline-none"
-            type="radio"
-            name="receiveEmail"
-            value="false"
-            checked={formData.receiveEmail === false}
-            onChange={handleChange}
-          />
-          <label className="text-[#888888]">No</label>
-        </div>
-
-        {/* Referrer ID */}
-        <div className="w-[80%] mx-auto mb-[23px]">
-          <label className="inline-block w-[184px] text-[#888888] text-sm align-middle">
-            Referrer ID
-          </label>
-          <input
-            className="inline-block h-[35px] w-[330px] p-0 border-0 border-b-[1px] border-b-[#dbdbdb] text-[14px] leading-[35px] align-middle outline-none"
-            type="text"
-            name="referrerId"
-            value={formData.referrerId}
-            onChange={handleChange}
-            placeholder="Optional"
-          />
-        </div>
-      </div>
-      
-      {/* Submit and Cancel Buttons */}
-      <div className="my-10 flex justify-center">
-        <button
-          type="submit"
-          className={`block mx-2 text-[15px] bg-black text-white py-3 px-14 rounded`}
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          className="block mx-2 text-[15px] bg-gray-300 text-black py-3 px-14 rounded"
-          onClick={resetForm}
-        >
-          Cancel
-        </button>
       </div>
     </form>
   );
 };
 
 export default SignupForm;
+      

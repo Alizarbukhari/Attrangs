@@ -1,4 +1,4 @@
-"use client" // Ensure this directive is at the top
+"use client"; // Ensure this directive is at the top
 
 import { useState } from "react"
 import Link from "next/link"
