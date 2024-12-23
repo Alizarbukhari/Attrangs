@@ -66,7 +66,7 @@ const Card: React.FC = () => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 mb-8 lg:grid-cols-4 gap-4">
       {productData.map((product) => (
-        <div key={product.id} className="w-full border p-4 rounded shadow">
+        <div key={product.id} className="w-full  p-8  ">
           {/* Image */}
           <div className="w-full h-64 relative group">
   <Image
@@ -100,10 +100,10 @@ const Card: React.FC = () => {
 
           {/* Additional Info (e.g., indicators) */}
           <div className="flex gap-1 mt-2">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-black rounded-full"></div>
+            <div className="w-3 h-3 bg-[#CFCFCF] rounded-full"></div>
+            <div className="w-3 h-3 bg-[#E4CBAD] rounded-full"></div>
+            <div className="w-3 h-3 bg-[#FAC8C8] rounded-full"></div>
           </div>
 
           {/* Divider */}
