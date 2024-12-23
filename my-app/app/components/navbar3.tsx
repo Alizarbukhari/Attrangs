@@ -50,7 +50,7 @@ export default function Navbar3() {
       {/* icons div */}
       <div className="text-3xl flex text-[#877b73] gap-3">
       <div><CiSearch/></div>
-        <div><FiUser/></div>
+      <Link href={"/login"}><div><FiUser /></div></Link>
         <div> <IoBagOutline/></div>
       </div>
 
