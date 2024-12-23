@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const Slide: React.FC<PropsType> = ({ image }) => {
   return (
-    <div className='w-full h-[620px]  relative flex flex-wrap'>
+    <div className='w-full h-[580px]  relative flex flex-wrap'>
       {/* Image container */}
-      <div className="relative h-[620px] w-full">
+      <div className="relative h-[580px] w-full">
         <Image 
           src={image}
           alt="Description of the image"
