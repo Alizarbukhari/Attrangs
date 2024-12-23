@@ -293,11 +293,11 @@ const SignupForm: React.FC<SignupFormProps> = ({ onComplete }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full min-h-screen px-0 sm:p-4">
-      <div className="w-full max-w-[930px] mx-auto bg-white">
-        <div className="w-full p-2 sm:p-4 md:p-6 border border-[#dbdbdb] rounded-lg">
+    <form onSubmit={handleSubmit} className="mt-8 max-w-2xl w-full mx-auto px-4 overflow-x-hidden">
+      <div className="w-full flex-wrap mx-auto bg-white">
+        <div className="w-full p-2 sm:p-4 md:p-6 border border-[#dbdbdb] rounded-lg overflow-x-hidden">
           <div className="w-full space-y-4 sm:space-y-6">
-            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+            <div className="w-full px-2 sm:px-0 sm:w-[95%] md:max-w-[2xl] lg:w-[80%] mx-auto">
               <div className="flex flex-col md:flex-row md:items-center mb-4">
                 <label className="w-full md:w-[184px] text-[#888888] text-sm mb-2 md:mb-0">
                   First Name<span className="text-[#cf591f]">*</span>
