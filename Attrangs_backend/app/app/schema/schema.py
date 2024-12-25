@@ -47,9 +47,6 @@ class User_Out(BaseModel):
     userNameId: str
     email: EmailStr
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
 
 class TokenData(BaseModel):
     user_id: Optional[int] = None
@@ -70,6 +67,8 @@ class UserOut(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    firstName: str 
+    lastName: str
 
 class TokenData(BaseModel):
     user_id: Optional[int] = None
