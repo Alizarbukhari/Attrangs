@@ -11,7 +11,7 @@ import 'swiper/css/autoplay';
 
 import Slide from './slide';
 import { slideData } from '../data/slidedata';
-import { SlideData_Types } from '../types/slideType';
+import { SlideData_Types } from '@/app/types/slidetype';
 import { MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Navbar2 from './navbar2';
 import Navbar3 from './navbar3';

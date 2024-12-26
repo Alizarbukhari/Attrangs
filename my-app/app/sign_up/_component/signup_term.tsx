@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Conditional from './conditional';
-import { SignupTermProps } from '@/app/types/signupTypes';
+import { SignupTermProps } from '@/app/types/signuptypes';
 
 const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
   const [agreed, setAgreed] = useState(false);
@@ -23,10 +23,9 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
   const handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAgreedToPrivacy(e.target.value === 'agree');
   };
-
   const handleCheck = () => {
     if (!agreed) {
-      toast.error("Aapko terms ko agree karna hoga aage badhne ke liye.", {
+      toast.error("please agreed all the terms", {
         position: "top-right",
         autoClose: 5000,
       });
@@ -34,7 +33,7 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
     }
 
     if (!ageConfirmed) {
-      toast.error("Aapko apni umar confirm karni hogi.", {
+      toast.error("please confirm your age", {
         position: "top-right",
         autoClose: 5000,
       });
@@ -42,7 +41,7 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
     }
 
     if (!agreedToPrivacy) {
-      toast.error("Aapko Privacy Policy ko agree karna hoga.", {
+      toast.error("please agree the privacy policies", {
         position: "top-right",
         autoClose: 5000,
       });
@@ -54,7 +53,7 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
 
   return (
     <>
-      {/* Terms of Service Section */}
+
       <div className="w-[90%] mx-auto h-[520px] p-[25px] border border-[#dbdbdb] overflow-auto">
         <h1 className="text-[1.5em] font-bold text-center mb-4">Terms of Service</h1>
 
@@ -112,32 +111,15 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
 
       {/* Agreement Radio Buttons for Privacy Policy */}
       <Conditional onAgreeChange={handlePrivacyChange} />
-
-      {/* Age Confirmation Section */}
+      {/* Age Confirmation */}
       <div>
-        <h3 className="w-[90%] mx-auto my-4 text-[15px] font-bold">
-          Confirm that you are 14 years of age or older
-        </h3>
+        <h3 className="w-[90%] mx-auto my-4 text-[15px] font-bold">Confirm that you are 14 years of age or older</h3>
       </div>
       <div className="w-[90%] mx-auto my-4 text-[14px] flex items-center gap-2 font-[500]">
-        <input
-          id="over14"
-          className="mr-2"
-          type="radio"
-          name="age"
-          value="over14"
-          onChange={handleAgeChange}
-        />
+        <input id="over14" className="mr-2" type="radio" name="age" value="over14" onChange={handleAgeChange} />
         <label htmlFor="over14">14 years old or older</label>
 
-        <input
-          id="under14"
-          className="mr-2"
-          type="radio"
-          name="age"
-          value="under14"
-          onChange={handleAgeChange}
-        />
+        <input id="under14" className="mr-2" type="radio" name="age" value="under14" onChange={handleAgeChange} />
         <label htmlFor="under14">Under 14 years old</label>
       </div>
 
@@ -149,7 +131,7 @@ const SignupTerm: React.FC<SignupTermProps> = ({ onAgree }) => {
         Check
       </button>
     </>
-  );
-};
+  )
+}
 
 export default SignupTerm;

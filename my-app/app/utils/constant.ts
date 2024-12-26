@@ -1,4 +1,4 @@
-import { NaveType } from "../types/slideType";
+import { NaveType } from "../types/slidetype";
 
 export const APP_LINKS: NaveType = [
   {
@@ -7,29 +7,29 @@ export const APP_LINKS: NaveType = [
   },
   {
     name: "Dresses",
-    href: "/category/Dresses",
+    href: "/dresses",
   },
   
 
   {
     name: "Tops",
-    href: "/category/Tops",
+    href: "/tops",
   },
   {
     name: "Sweatshirts&Hoodies",
-    href: "/category/Sweatshirts-&-Hoodies",
+    href: "/sweatshirts-&-Hoodies",
   },
   {
     name: "Outerwear",
-    href: "/category/Outerwear",
+    href: "/outerwear",
   },
   {
     name: "Skirts",
-    href: "/category/Skirts",
+    href: "/skirts",
   },
   {
     name: "Pants",
-    href: "/category/Pants",
+    href: "/pants",
   },
   {
     name: "Shop",

@@ -10,7 +10,12 @@ export type NaveItem = {
   href: string;
 };
 export type NaveType = NaveItem[];
-
+export type TextTypes = {
+  title: string;
+  description: string;
+  brdescription?:string;
+  p1?:string;
+}
 
 export type PropsType =  {
     image: string;
