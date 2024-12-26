@@ -53,8 +53,7 @@ const MyPage = () => {
           <h3 className="text-xl md:text-2xl text-gray-700 font-semibold">
             {user.firstName} {user.lastName}
           </h3>
-          <p className="text-gray-500">Username: {user.username}</p>
-        </div>
+          </div>
 
         {/* User Actions */}
         <div className="flex flex-col md:flex-row items-center gap-4">
