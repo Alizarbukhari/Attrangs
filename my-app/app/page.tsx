@@ -10,7 +10,7 @@ export default function Home() {
     <div className="w-full">
 
 <Navbar1/>
- {/* <Navbar2/> */}
+
 <Header/>
 
 <Text1 title ="아뜨랑스는" description="화면너머의 여러분에게 따뜻한 쇼핑메이트이고 싶습니다." brdescription="일상에 스며드는 실용적인 옷들부터" p1="가장 빛이 나야하는 순간까지 언제나 함께 하겠습니다."/>

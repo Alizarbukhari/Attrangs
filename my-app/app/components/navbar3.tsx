@@ -1,7 +1,7 @@
 // components/Navbar3.tsx
 "use client";
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
@@ -15,18 +15,45 @@ import { FiSearch } from "react-icons/fi";
 import ShowNav from "./shownav";
 import NavArrowBar from "./navarrowbar";
 
-import { AuthContext } from '../login/_components/Aouthcontext'; // Correct path to AuthContext
+import { AuthContext } from '../../context/Aouthcontext'; // Correct path to AuthContext
 import { useRouter } from 'next/navigation'; // For programmatic navigation
 
+// Add interface for user type
+interface UserType {
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  token?: string;
+}
+
 export default function Navbar3() {
-  const { user, logout } = useContext(AuthContext); // Access user and logout from AuthContext
-  const router = useRouter(); // Initialize router for navigation
+  const { user, logout } = useContext(AuthContext);
+  const router = useRouter();
+  const [localUser, setLocalUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser: UserType = JSON.parse(storedUser);
+        setLocalUser(parsedUser);
+        console.log("Local storage user:", parsedUser);
+      } catch (e) {
+        console.error("Error parsing stored user:", e);
+      }
+    }
+  }, []);
 
   const handleUserIconClick = () => {
-    if (user) {
-      router.push('/mypage'); // Redirect to MyPage if user is logged in
+    const isLoggedIn = (user as UserType)?.username || localUser?.username;
+    console.log("Checking auth:", { contextUser: user, localStorageUser: localUser });
+
+    if (isLoggedIn) {
+      console.log("User is logged in, going to mypage");
+      router.push('/mypage');
     } else {
-      router.push('/login'); // Redirect to Login if user is not logged in
+      console.log("No user found, going to login");
+      router.push('/login');
     }
   };
 

@@ -9,7 +9,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import Image from "next/image";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { AuthContext } from './Aouthcontext'; // Correct path
+import { AuthContext } from '../../../context/Aouthcontext'; // Correct path
 
 interface LoginResponse {
   access_token: string;
@@ -179,7 +179,7 @@ export default function LoginPage() {
             Forgot Password
           </Link>
           <span>|</span>
-          <Link href="/signup" className="hover:underline">
+          <Link href="/sign_up" className="hover:underline">
             User Signup
           </Link>
         </div>

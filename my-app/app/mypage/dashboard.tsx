@@ -3,7 +3,7 @@
 import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AuthContext } from '../login/_components/Aouthcontext'; // Corrected path
+import { AuthContext } from '../../context/Aouthcontext'; // Corrected path
 import { useRouter } from 'next/navigation';
 
 const MyPage = () => {
@@ -53,7 +53,8 @@ const MyPage = () => {
           <h3 className="text-xl md:text-2xl text-gray-700 font-semibold">
             {user.firstName} {user.lastName}
           </h3>
-          </div>
+         
+        </div>
 
         {/* User Actions */}
         <div className="flex flex-col md:flex-row items-center gap-4">
