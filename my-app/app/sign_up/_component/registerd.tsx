@@ -11,7 +11,7 @@ const ConfirmRegistration: React.FC<ConfirmRegistrationProps> = ({ formData }) =
     setIsLoading(true);
     try {
       // Replace with your actual backend URL when ready
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts', { // Mock API
+      const response = await fetch('http://localhost:8000/register_user_register', { // Mock API
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const ConfirmRegistration: React.FC<ConfirmRegistrationProps> = ({ formData }) =
 
   if (isSuccess) {
     return (
-      <div className="w-full h-[300px] flex flex-col items-center justify-center mx-auto p-[25px] border border-[#dbdbdb] overflow-auto">
+      <div className="w-full h-[300px] flex flex-col items-center justify-center  p-[25px] border border-[#dbdbdb] overflow-auto">
         <h2 className="text-2xl font-bold text-green-600 mb-4">Registration Successful!</h2>
         <p className="text-lg text-gray-700">Thank you for registering. You can now log in with your credentials.</p>
         <button

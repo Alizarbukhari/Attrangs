@@ -29,10 +29,10 @@ const Signup_Setup = () => {
   return (
     <div className=" mt-32 w-full flex flex-col flex-wrap">
       {/* Logo Section */}
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex mx-auto justify-center flex-wrap w-full  mt-5">
         <Link href="/">
           <button>
-            <Image src="/kakao-pc.jpg" alt="kakao-pc" width={978} height={70} />
+            <Image src="/kakao-pc.jpg" alt="kakao-pc" width={1150} height={70} />
           </button>
         </Link>
       </div>
@@ -97,7 +97,7 @@ const Signup_Setup = () => {
       </div>
 
       {/* Step Content */}
-      <div className="mt-8 max-w-5xl mx-auto px-4">
+      <div className="mt-8 max-w-7xl w-full mx-auto px-4">
         {currentStep === 1 && <Signup_Term onAgree={handleAgree} />}
         {currentStep === 2 && <SignupForm onComplete={handleFormComplete} />}
         {currentStep === 3 && formData && <ConfirmRegistration formData={formData} />}
