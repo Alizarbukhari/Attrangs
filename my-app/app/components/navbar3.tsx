@@ -1,5 +1,4 @@
 // components/Navbar3.tsx
-
 "use client";
 
 import React, { useContext } from 'react';
