@@ -11,6 +11,7 @@ import { FiUser } from "react-icons/fi";
 import { FcCloseUpMode } from "react-icons/fc";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
+import { getCookie } from 'cookies-next';
 
 import ShowNav from "./shownav";
 import NavArrowBar from "./navarrowbar";
@@ -18,41 +19,18 @@ import NavArrowBar from "./navarrowbar";
 import { AuthContext } from '../../context/Aouthcontext'; // Correct path to AuthContext
 import { useRouter } from 'next/navigation'; // For programmatic navigation
 
-// Add interface for user type
-interface UserType {
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  token?: string;
-}
+
 
 export default function Navbar3() {
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const router = useRouter();
-  const [localUser, setLocalUser] = useState<UserType | null>(null);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const parsedUser: UserType = JSON.parse(storedUser);
-        setLocalUser(parsedUser);
-        console.log("Local storage user:", parsedUser);
-      } catch (e) {
-        console.error("Error parsing stored user:", e);
-      }
-    }
-  }, []);
 
   const handleUserIconClick = () => {
-    const isLoggedIn = (user as UserType)?.username || localUser?.username;
-    console.log("Checking auth:", { contextUser: user, localStorageUser: localUser });
+    const userCookie = getCookie('user_data');
 
-    if (isLoggedIn) {
-      console.log("User is logged in, going to mypage");
+    if (user || userCookie) {
       router.push('/mypage');
     } else {
-      console.log("No user found, going to login");
       router.push('/login');
     }
   };
@@ -76,9 +54,12 @@ export default function Navbar3() {
           
           {/* Icons */}
           <div className="text-2xl flex text-[#877b73] gap-5 -mt-3">
-            {/* User Icon */}
+            {/* User Icon with visual feedback */}
             <div className="w-[18px] h-[18px]">
-              <FiUser onClick={handleUserIconClick} className="cursor-pointer" />
+              <FiUser 
+                onClick={handleUserIconClick} 
+                className={`cursor-pointer ${user ? 'text-[#e5aaa3]' : 'text-[#877b73]'}`} 
+              />
             </div>
             
             {/* Shopping Bag Icon */}
@@ -114,7 +95,11 @@ export default function Navbar3() {
             {/* Right Icons */}
             <div className="text-3xl flex text-[#877b73] gap-3">
               <CiSearch />
-              <FiUser onClick={handleUserIconClick} className="cursor-pointer" />
+              <FiUser 
+                onClick={handleUserIconClick} 
+                className={`cursor-pointer ${user ? 'text-[#e5aaa3]' : 'text-[#877b73]'}`}
+                title={user ? `Welcome, ${user.firstName}` : 'Login'} 
+              />
               <IoBagOutline />
             </div>
           </div>

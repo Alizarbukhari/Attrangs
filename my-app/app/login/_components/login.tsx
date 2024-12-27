@@ -10,6 +10,7 @@ import Image from "next/image";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../../../context/Aouthcontext'; // Correct path
+import { setCookie } from 'cookies-next'; // Install cookies-next package first
 
 interface LoginResponse {
   access_token: string;
@@ -36,7 +37,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("Submitting login form", { email, password });
+  
 
     try {
       // Create URLSearchParams object to send form data
@@ -44,7 +45,7 @@ export default function LoginPage() {
       formData.append('username', email); // Map email to username
       formData.append('password', password);
 
-      console.log("Sending POST request to", `${API_URL}/login`);
+     
 
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
@@ -79,6 +80,20 @@ export default function LoginPage() {
             token: data.access_token 
           });
         }
+
+        // Set cookies with token and user info
+        setCookie('auth_token', data.access_token, {
+          maxAge: 30 * 24 * 60 * 60, // 30 days
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
+
+        setCookie('user_info', JSON.stringify({
+          email,
+          firstName: data.firstName,
+          lastName: data.lastName
+        }));
 
         // Redirect to MyPage
         router.push('/mypage'); // Change '/mypage' to your desired route
