@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 interface AuthContextType {
   user: User | null;
@@ -25,34 +26,46 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
+  // Load user data immediately
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    console.log("Stored user:", storedUser);
-    if (storedUser) {
-      try {
-        const parsedUser: User = JSON.parse(storedUser);
-        setUser(parsedUser);
-        console.log("User set from storage:", parsedUser);
-      } catch (error) {
-        console.error("Error parsing user from storage:", error);
-        setUser(null);
+    const loadUser = async () => {
+      const userCookie = await getCookie('user_data');
+      if (userCookie) {
+        try {
+          const parsedUser = JSON.parse(userCookie as string);
+          setUser(parsedUser);
+          console.log("Loaded user from cookie:", parsedUser);
+        } catch (error) {
+          console.error("Error parsing user cookie:", error);
+        }
       }
-    }
-    setLoading(false);
-  }, []);
+      setLoading(false);
+    };
+
+    loadUser();
+  }, []); // Run once on mount
 
   const login = (userData: User) => {
+    console.log("Setting user in context:", userData);
+    // Set cookies first
+    setCookie('user_data', JSON.stringify(userData), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    });
+    setCookie('auth_token', userData.token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    });
+    // Then update state
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    console.log("User logged in:", userData);
   };
 
   const logout = () => {
+    deleteCookie('user_data');
+    deleteCookie('auth_token');
     setUser(null);
-    localStorage.removeItem('user');
-    console.log("User logged out");
   };
 
   return (
