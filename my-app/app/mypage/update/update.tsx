@@ -4,6 +4,8 @@ import { useState, useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
 import { apiCall } from "../../utils/api";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/Aouthcontext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -18,6 +20,7 @@ const EditMemberInfo: React.FC = () => {
   const [email, setEmail] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
+  const { logout, login } = useContext(AuthContext);
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -43,8 +46,7 @@ const EditMemberInfo: React.FC = () => {
 
   // Phone number validation function
   const validatePhone = useCallback((number: string) => {
-    const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(number);
+    return true; // No validation needed anymore
   }, []);
 
   // Password validation function
@@ -87,23 +89,31 @@ const EditMemberInfo: React.FC = () => {
     setIsSaving(true);
 
     try {
-      // Always verify current password if any field is changed
-      const isValid = await verifyCurrentPassword(currentPassword);
-      if (!isValid) {
-        toast.error("Current password is incorrect. Please enter your current password to make changes.", {
+      // Required fields validation
+      if (!firstName.trim() || !lastName.trim()) {
+        toast.error("Name and Castle fields are required", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
         });
         setIsSaving(false);
         return;
       }
 
-      // Additional validation for new password if provided
+      // New password validation if provided
       if (newPassword) {
+        const passwordValidation = validatePassword(newPassword);
+        if (!passwordValidation.isValid) {
+          toast.error(
+            `Password requirements missing: ${passwordValidation.errors.join(", ")}`, 
+            {
+              position: "top-right",
+              autoClose: 5000,
+            }
+          );
+          setIsSaving(false);
+          return;
+        }
+
         if (newPassword !== confirmPassword) {
           toast.error("New passwords do not match", {
             position: "top-right",
@@ -114,7 +124,28 @@ const EditMemberInfo: React.FC = () => {
         }
       }
 
-      // Update profile with all fields
+      // Current password verification
+      if (!currentPassword) {
+        toast.error("Please enter your current password to make changes", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+        setIsSaving(false);
+        return;
+      }
+
+      // Verify current password
+      const isValid = await verifyCurrentPassword(currentPassword);
+      if (!isValid) {
+        toast.error("Current password is incorrect", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+        setIsSaving(false);
+        return;
+      }
+
+      // Profile update ka API call
       const response = await apiCall(`${API_URL}/update-profile`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -126,14 +157,41 @@ const EditMemberInfo: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update profile');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update profile');
       }
 
       toast.success("Profile updated successfully!");
-      router.push('/mypage');
+      
+      // Agar password change hua hai
+      if (newPassword) {
+        logout(); // User ko logout kar do
+        router.push('/login'); // Login page pe bhej do
+      } else {
+        // Agar password change nahi hua, to sirf profile update karo
+        router.push('/mypage');
+      }
 
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "An error occurred");
+      console.error('Error updating profile:', error);
+      if (error instanceof Error) {
+        if (error.message.includes('Failed to fetch')) {
+          toast.error("Unable to connect to server. Please try again later.", {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        } else {
+          toast.error(error.message, {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        }
+      } else {
+        toast.error("An unexpected error occurred. Please try again later.", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      }
     } finally {
       setIsSaving(false);
     }
