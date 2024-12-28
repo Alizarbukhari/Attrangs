@@ -4,7 +4,7 @@ from .routes import login
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from .database.db import create_table
-import uvicorn
+import uvicorn #type: ignore
 
 
 @asynccontextmanager
@@ -44,12 +44,6 @@ tags = [
     }
 ]
 
-app = FastAPI(
-    title="Attrangs API",
-    description="Backend API for Attrangs e-commerce platform",
-    version="1.0.0",
-    openapi_tags=tags
-)
 
 @app.get('/')
 def root():

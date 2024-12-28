@@ -1,53 +1,139 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
+import { apiCall } from "../../utils/api";
+import { useRouter } from "next/navigation";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 const EditMemberInfo: React.FC = () => {
-  const [firstName, setFirstName] = useState("xyz");
-  const [lastName, setLastName] = useState("xyz");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userNameId, setUserNameId] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("3033201020");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await apiCall(`${API_URL}/get-current-user`);
+        if (response.ok) {
+          const userData = await response.json();
+          setFirstName(userData.first_name);
+          setLastName(userData.last_name);
+          setUserNameId(userData.user_name_id);
+          setPhone(userData.phone || "");
+          setEmail(userData.email);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load user data");
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Phone number validation function
+  const validatePhone = useCallback((number: string) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(number);
+  }, []);
+
+  // Password validation function
+  const validatePassword = useCallback((password: string) => {
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+
+    const errors = [];
+    if (!hasNumber) errors.push("At least one number");
+    if (!hasSpecialChar) errors.push("At least one special character");
+    if (!hasUpperCase) errors.push("At least one capital letter");
+    if (!hasLowerCase) errors.push("At least one small letter");
+    if (password.length < 8) errors.push("Minimum 8 characters");
+
+    return {
+      isValid: errors.length === 0,
+      errors: errors
+    };
+  }, []);
+
+  // Current password check karne ka function
+  const verifyCurrentPassword = async (password: string) => {
+    try {
+      const response = await apiCall(`${API_URL}/verify-password`, {
+        method: 'POST',
+        body: JSON.stringify({ current_password: password })
+      });
+
+      return response.ok;
+    } catch (error) {
+      console.error('Error verifying password:', error);
+      return false;
+    }
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Basic validation
-    if (newPassword !== confirmPassword) {
-      toast.error("New passwords do not match.");
-      return;
-    }
-
     setIsSaving(true);
 
     try {
-      const response = await fetch("/api/update-member", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      // Always verify current password if any field is changed
+      const isValid = await verifyCurrentPassword(currentPassword);
+      if (!isValid) {
+        toast.error("Current password is incorrect. Please enter your current password to make changes.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setIsSaving(false);
+        return;
+      }
+
+      // Additional validation for new password if provided
+      if (newPassword) {
+        if (newPassword !== confirmPassword) {
+          toast.error("New passwords do not match", {
+            position: "top-right",
+            autoClose: 5000,
+          });
+          setIsSaving(false);
+          return;
+        }
+      }
+
+      // Update profile with all fields
+      const response = await apiCall(`${API_URL}/update-profile`, {
+        method: 'PUT',
         body: JSON.stringify({
-          firstName,
-          lastName,
-          currentPassword,
-          newPassword,
+          first_name: firstName,
+          last_name: lastName,
           phone,
-        }),
+          new_password: newPassword || undefined
+        })
       });
 
-      if (response.ok) {
-        toast.success("Member information updated successfully!");
-        // Optionally, redirect or perform other actions
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message || "Failed to update information.");
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
       }
+
+      toast.success("Profile updated successfully!");
+      router.push('/mypage');
+
     } catch (error) {
-      console.error("Error updating member information:", error);
-      toast.error("An unexpected error occurred.");
+      toast.error(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsSaving(false);
     }
@@ -67,152 +153,102 @@ const EditMemberInfo: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex justify-center gap-4 mb-6">
-        <button
-          type="button"
-          className="px-3 py-1 text-xs sm:text-sm underline text-[#e5aaa3] hover:text-[#d88f87]"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
-
       <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow">
-        <form className="space-y-4 sm:space-y-6" onSubmit={handleSave}>
-          {/* Name Input */}
+        <form className="space-y-6 max-w-2xl mx-auto p-4" onSubmit={handleSave}>
+          {/* Name */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="firstName" className="text-sm sm:w-32">
-              Name
-            </label>
+            <label className="text-sm sm:w-32">Name</label>
             <input
-              id="firstName"
-              name="firstName"
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* Castle Input */}
+          {/* Castle */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="lastName" className="text-sm sm:w-32">
-              Castle
-            </label>
+            <label className="text-sm sm:w-32">Castle</label>
             <input
-              id="lastName"
-              name="lastName"
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* ID Input */}
+          {/* ID */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="id" className="text-sm sm:w-32">
-              ID
-            </label>
+            <label className="text-sm sm:w-32">ID</label>
             <input
-              id="id"
-              name="id"
               type="text"
-              value="cm540aptk0003119pecvsljvf"
-              disabled
+              value={userNameId}
               className="w-full flex-1 p-2 bg-gray-50 border-b outline-none"
+              disabled
             />
           </div>
 
-          {/* Current Password Input */}
+          {/* Current Password */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="currentPassword" className="text-sm sm:w-32">
-              Current Password
-            </label>
+            <label className="text-sm sm:w-32">Current Password</label>
             <input
-              id="currentPassword"
-              name="currentPassword"
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* New Password Input */}
+          {/* New Password */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="newPassword" className="text-sm sm:w-32">
-              New Password
-            </label>
+            <label className="text-sm sm:w-32">New Password</label>
             <input
-              id="newPassword"
-              name="newPassword"
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* Verify Password Input */}
+          {/* Verify Password */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="confirmPassword" className="text-sm sm:w-32">
-              Verify Password
-            </label>
+            <label className="text-sm sm:w-32">Verify Password</label>
             <input
-              id="confirmPassword"
-              name="confirmPassword"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* Phone Number Input */}
+          {/* Phone */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="phone" className="text-sm sm:w-32">
-              Phone Number
-            </label>
+            <label className="text-sm sm:w-32">Phone</label>
             <input
-              id="phone"
-              name="phone"
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full flex-1 p-2 border-b outline-none"
-              required
             />
           </div>
 
-          {/* Email Input */}
+          {/* Email */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <label htmlFor="email" className="text-sm sm:w-32">
-              Email
-            </label>
+            <label className="text-sm sm:w-32">Email</label>
             <input
-              id="email"
-              name="email"
               type="email"
-              value="xyz@gmail.com"
-              disabled
+              value={email}
               className="w-full flex-1 p-2 bg-gray-50 border-b outline-none"
+              disabled
             />
           </div>
 
-          {/* Save Button */}
-          <div className="flex justify-center mt-6">
+          {/* Submit Button */}
+          <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className={`px-4 py-2 bg-[#e5aaa3] text-white rounded-lg hover:bg-[#d88f87] transition duration-300 ${
-                isSaving ? "opacity-50 cursor-not-allowed" : ""
-              }`}
               disabled={isSaving}
+              className="px-6 py-2 bg-[#e5aaa3] text-white rounded hover:bg-[#d89993] disabled:opacity-50"
             >
               {isSaving ? "Saving..." : "Save Changes"}
             </button>
