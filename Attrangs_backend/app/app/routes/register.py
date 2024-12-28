@@ -1,9 +1,10 @@
 # routers/register.py
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session # type: ignore
-from ..schema.schema import User_Create_Register
-from ..crud.crud import get_user_by_username, get_user_by_email, create_user
+from ..schema.schema import User_Create_Register,User_Update
+from ..crud.crud import get_user_by_username, get_user_by_email, create_user,update_user_data
+from ..crud.dependency import get_current_user
 from ..database.db import get_session
 
 router1 = APIRouter()
@@ -23,3 +24,14 @@ def register_user(user: User_Create_Register, db: Session = Depends(get_session)
     
     db_user = create_user(db, user)
     return db_user
+
+
+
+@router1.put("/update-user", response_model=User_Update)
+def update_user_route(
+    update_data: User_Update,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_session)
+):
+    updated_user = update_user_data(db=db,update_data=update_data,user_id=current_user.id)
+    return updated_user

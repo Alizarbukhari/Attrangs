@@ -29,14 +29,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+tags = [
+    {
+        "name": "register",
+        "description": "User registration operations"
+    },
+    {
+        "name": "login", 
+        "description": "User authentication operations"
+    },
+    {
+        "name": "update_user",
+        "description": "User profile update operations"
+    }
+]
+
+app = FastAPI(
+    title="Attrangs API",
+    description="Backend API for Attrangs e-commerce platform",
+    version="1.0.0",
+    openapi_tags=tags
+)
 
 @app.get('/')
 def root():
     return {"names" : "attrangs"}
 
-app.include_router(register.router1)
-app.include_router(login.router)
-
+app.include_router(register.router1,tags=["register"])
+app.include_router(login.router,tags=["login"])
 def start():
     # create_tables()
     uvicorn.run("app.main:app",host="127.0.0.1", port=8000, reload=True)   
