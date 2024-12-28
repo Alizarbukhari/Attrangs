@@ -1,7 +1,7 @@
 // components/Navbar3.tsx
 "use client";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";

@@ -30,7 +30,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
   const router = useRouter(); // Initialize router for navigation
-  const { login, loading } = useContext(AuthContext); // Access login function and loading state from context
+  const { login } = useContext(AuthContext); // Access login function and loading state from context
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Use environment variable
 
@@ -38,28 +38,44 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
   
+    // Debug: Log form data being sent
+    console.log('Sending login request with:', {
+      username: email,
+      password: password?.length > 0 ? 'password-provided' : 'no-password'
+    });
 
     try {
-      // Create URLSearchParams object to send form data
       const formData = new URLSearchParams();
-      formData.append('username', email); // Map email to username
+      formData.append('username', email);
       formData.append('password', password);
 
-     
+      // Debug: Log the API URL
+      console.log('Making request to:', `${API_URL}/login`);
 
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Set correct Content-Type
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: formData.toString(), // Convert formData to string
+        body: formData.toString(),
       });
 
-      console.log("Received response:", response.status, response.statusText);
+      // Debug: Log raw response
+      console.log('Raw response:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
 
       if (response.ok) {
         const data: LoginResponse = await response.json();
-        console.log('Login successful:', data);
+        // Debug: Log successful response data
+        console.log('Login response data:', {
+          hasToken: !!data.access_token,
+          firstName: data.firstName,
+          lastName: data.lastName
+        });
+
         toast.success('Login successful!', {
           position: "top-right",
           autoClose: 5000,
@@ -98,21 +114,27 @@ export default function LoginPage() {
         // Redirect to MyPage
         router.push('/mypage'); // Change '/mypage' to your desired route
       } else {
+        // Debug: Log error response
+        const rawErrorText = await response.text();
+        console.log('Error response raw text:', rawErrorText);
+        
         let errorData: ErrorResponse;
         try {
-          errorData = await response.json();
+          errorData = JSON.parse(rawErrorText);
         } catch (parseError) {
           console.error("Error parsing error response:", parseError);
           errorData = { detail: 'Failed to login.' };
         }
-        console.error('Login failed:', errorData);
+        
+        console.error('Login failed with error:', errorData);
         toast.error(errorData.detail || 'Failed to login.', {
           position: "top-right",
           autoClose: 5000,
         });
       }
     } catch (error) {
-      console.error('Error:', error);
+      // Debug: Log network or other errors
+      console.error('Network or other error:', error);
       toast.error('An unexpected error occurred.', {
         position: "top-right",
         autoClose: 5000,
