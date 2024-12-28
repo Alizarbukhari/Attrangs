@@ -67,7 +67,7 @@ const EditMemberInfo: React.FC = () => {
     };
   }, []);
 
-  // Current password check karne ka function
+  // Current password check karne ka function new
   const verifyCurrentPassword = async (password: string) => {
     try {
       const response = await apiCall(`${API_URL}/verify-password`, {
