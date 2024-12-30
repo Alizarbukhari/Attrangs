@@ -32,7 +32,7 @@ const PageCard = (props:Product) => {
   return (
     <div className="mb-8">
       
-        <div key={props.id} className="w-full">
+        <div key={props.id} className="w-full md:w-[300px]">
           {/* Image */}
           <div className="w-full h-96 relative group">
   <Image

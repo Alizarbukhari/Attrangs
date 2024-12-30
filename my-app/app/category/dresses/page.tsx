@@ -1,6 +1,6 @@
 
-import Navbar4 from '../components/navbar4';
-import PageCard from '../components/pagecard';
+import Navbar4 from '../../components/navbar4';
+import PageCard from '../../components/pagecard';
 
 export default function Dresses() {
   // Mock data array
@@ -70,7 +70,7 @@ export default function Dresses() {
       {/* Product Cards */}
       <div className='mt-24 px-4'>
         {/* Grid Layout */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
           {products.map((product) => (
             <PageCard
               key={product.id}
