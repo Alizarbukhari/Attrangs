@@ -15,7 +15,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed w-full h-full inset-0 bg-black bg-opacity-90 z-50 flex justify-center items-center">
-      <div className="w-full h-full bg-white p-4 rounded-lg">
+      <div className="w-full h-full bg-white p-4 ">
         <div className="flex justify-between items-center mb-4">
           <div className="text-lg font-medium text-[#877b73]">
             <span>Search</span>
