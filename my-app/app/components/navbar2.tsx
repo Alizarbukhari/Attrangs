@@ -1,7 +1,7 @@
 // components/Navbar3.tsx
 "use client";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
@@ -15,24 +15,35 @@ import { getCookie } from 'cookies-next';
 
 import ShowNav from "./shownav";
 import NavArrowBar from "./navarrowbar";
+import SearchModal from './_searching-component/searchModel';
 
 import { AuthContext } from '../../context/Aouthcontext'; // Correct path to AuthContext
 import { useRouter } from 'next/navigation'; // For programmatic navigation
 
+interface Navbar2Props {
+  onSearchOpen: () => void;
+}
 
-
-export default function Navbar3() {
+export default function Navbar3({ onSearchOpen }: Navbar2Props) {
   const { user } = useContext(AuthContext);
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleUserIconClick = () => {
     const userCookie = getCookie('user_data');
-
     if (user || userCookie) {
       router.push('/mypage');
     } else {
       router.push('/login');
     }
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -74,7 +85,7 @@ export default function Navbar3() {
             
             {/* Search Icon */}
             <div className="w-[18px] h-[18px]">
-              <FiSearch />
+              <FiSearch onClick={onSearchOpen} className="cursor-pointer" />
             </div>
           </div>
         </div>
@@ -94,7 +105,7 @@ export default function Navbar3() {
             
             {/* Right Icons */}
             <div className="text-3xl flex text-white gap-3">
-              <CiSearch />
+              <CiSearch onClick={onSearchOpen} className="cursor-pointer" />
               <FiUser 
                 onClick={handleUserIconClick} 
                 className={`cursor-pointer ${user ? 'text-white' : 'text-white'}`}
@@ -124,6 +135,8 @@ export default function Navbar3() {
           </div>
         </div>
       </div>
+
+      <SearchModal isOpen={isOpen} onClose={handleClose} />
     </>
   )
 }

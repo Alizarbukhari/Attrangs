@@ -70,8 +70,13 @@ class Token(BaseModel):
     firstName: str 
     lastName: str
 
-class TokenData(BaseModel):
-    user_id: Optional[int] = None
+
+class User_Update(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    password: Optional[str]
+    phone: Optional[str] 
+    email: Optional[EmailStr]
 
 
 

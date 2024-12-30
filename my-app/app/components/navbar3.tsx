@@ -1,7 +1,7 @@
 // components/Navbar3.tsx
 "use client";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { APP_LINKS } from "../utils/constant";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
@@ -15,13 +15,16 @@ import { getCookie } from 'cookies-next';
 
 import ShowNav from "./shownav";
 import NavArrowBar from "./navarrowbar";
+import SearchModal from "./_searching-component/searchModel";
 
 import { AuthContext } from '../../context/Aouthcontext'; // Correct path to AuthContext
 import { useRouter } from 'next/navigation'; // For programmatic navigation
 
+interface Navbar3Props {
+  onSearchOpen: () => void;
+}
 
-
-export default function Navbar3() {
+export default function Navbar3({ onSearchOpen }: Navbar3Props) {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
@@ -56,10 +59,12 @@ export default function Navbar3() {
           <div className="text-2xl flex text-[#877b73] gap-5 -mt-3">
             {/* User Icon with visual feedback */}
             <div className="w-[18px] h-[18px]">
+              <button>
               <FiUser 
                 onClick={handleUserIconClick} 
                 className={`cursor-pointer ${user ? 'text-[#e5aaa3]' : 'text-[#877b73]'}`} 
               />
+              </button>
             </div>
             
             {/* Shopping Bag Icon */}
@@ -74,7 +79,10 @@ export default function Navbar3() {
             
             {/* Search Icon */}
             <div className="w-[18px] h-[18px]">
-              <FiSearch />
+              <FiSearch 
+                onClick={onSearchOpen}
+                className="cursor-pointer"
+              />
             </div>
           </div>
         </div>
@@ -94,7 +102,10 @@ export default function Navbar3() {
             
             {/* Right Icons */}
             <div className="text-3xl flex text-[#877b73] gap-3">
-              <CiSearch />
+              <CiSearch 
+                onClick={onSearchOpen}
+                className="cursor-pointer"
+              />
               <FiUser 
                 onClick={handleUserIconClick} 
                 className={`cursor-pointer ${user ? 'text-[#e5aaa3]' : 'text-[#877b73]'}`}
@@ -124,6 +135,7 @@ export default function Navbar3() {
           </div>
         </div>
       </div>
+      <SearchModal isOpen={false} onClose={() => {}} />
     </>
   )
 }

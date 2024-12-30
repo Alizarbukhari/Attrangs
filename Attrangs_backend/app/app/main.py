@@ -4,7 +4,7 @@ from .routes import login
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from .database.db import create_table
-import uvicorn
+import uvicorn #type: ignore
 
 
 @asynccontextmanager
@@ -29,14 +29,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+tags = [
+    {
+        "name": "register",
+        "description": "User registration operations"
+    },
+    {
+        "name": "login", 
+        "description": "User authentication operations"
+    },
+    {
+        "name": "update_user",
+        "description": "User profile update operations"
+    }
+]
+
 
 @app.get('/')
 def root():
     return {"names" : "attrangs"}
 
-app.include_router(register.router1)
-app.include_router(login.router)
-
+app.include_router(register.router1,tags=["register"])
+app.include_router(login.router,tags=["login"])
 def start():
     # create_tables()
     uvicorn.run("app.main:app",host="127.0.0.1", port=8000, reload=True)   

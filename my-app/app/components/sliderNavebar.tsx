@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from "react";
 import SliderComponent from "./navbar1";
 import Navbar3 from "./navbar3";
+import SearchModal from "./_searching-component/searchModel";
 
 
 
 const PageLayout: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
   
     useEffect(() => {
       const handleScroll = () => {
@@ -31,8 +33,10 @@ const PageLayout: React.FC = () => {
             isScrolled ? "mt-0" : "mt-[50px]"
           }`}
         >
-          <Navbar3 />
+          <Navbar3 onSearchOpen={() => setIsSearchOpen(true)} />
         </div>
+        
+        <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       </div>
     );
   };
