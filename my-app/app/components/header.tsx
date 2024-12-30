@@ -15,11 +15,13 @@ import { SlideData_Types } from '@/app/types/slidetype';
 import { MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Navbar2 from './navbar2';
 import Navbar3 from './navbar3';
+import SearchModal from './_searching-component/searchModel';
 
 export default function Header() {
   const swiperRef = useRef<SwiperType | null>(null); // Swiper reference
 
   const [isScrolled, setIsScrolled] = useState(false); // Track if scrolled
+  const [isSearchOpen, setIsSearchOpen] = useState(false);  // Add this state
 
   // Function to handle scroll event
   const handleScroll = () => {
@@ -60,7 +62,7 @@ export default function Header() {
         <div className={`fixed z-20 ${isScrolled ? 'hidden' : 'block'} transition-all duration-300 w-full`}>
           <div className="flex justify-center items-center w-full">
             <div className="w-full text-center">
-              <Navbar2 />
+              <Navbar2 onSearchOpen={() => setIsSearchOpen(true)} />
             </div>
           </div>
         </div>
@@ -69,7 +71,7 @@ export default function Header() {
         <div className={`fixed z-20 top-0 ${isScrolled ? 'block' : 'hidden'} transition-all duration-300 w-full`}>
           <div className="flex justify-center items-center w-full">
             <div className="w-full text-center">
-              <Navbar3 />
+              <Navbar3 onSearchOpen={() => setIsSearchOpen(true)} />
             </div>
           </div>
         </div>
@@ -116,6 +118,12 @@ export default function Header() {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Add SearchModal here */}
+        <SearchModal 
+          isOpen={isSearchOpen} 
+          onClose={() => setIsSearchOpen(false)} 
+        />
       </div>
     </div>
   );
