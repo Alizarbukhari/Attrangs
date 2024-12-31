@@ -61,7 +61,7 @@ export default function Products({ params }: { params: { slug: string } }) {
     // main div
     <div className="w-full h-auto mb-28">
       {/* first content div bg white */}
-      <div className="w-full h-[100px] bg-red-50">
+      <div className="w-full h-[100px]">
       </div>
       {/* first content div */}
       <div className="w-full h-auto px-[20px] flex flex-col md:flex-row flex-wrap gap-4 md:gap-8">
