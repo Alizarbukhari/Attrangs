@@ -2,7 +2,7 @@ import NavArrowBar from "@/app/components/navarrowbar";
 import Navbar4 from "@/app/components/navbar4";
 import PageLayout from "@/app/components/sliderNavebar";
 import { FaChevronRight } from "react-icons/fa";
-import mage from "next/image";
+import Image from "next/image";
 import Blog_Page_Navigation from "@/app/components/blog_page_navigation";
 import Blog_Custom_Model from "@/app/components/blog_custom_model";
 
@@ -69,16 +69,22 @@ export default function Products({ params }: { params: { slug: string } }) {
   <div className="flex flex-col gap-2">
     {/* Image Div 1 */}
   <div className="w-full md:w-[750px] h-[400px] md:h-[1000px] bg-green-400">
-    <Image src={""}
-    width={"0"}
-    height={"0"}
-    alt=""/>
+    <Image src={slectBlog[0]?.image_source}
+    width={"500"}
+    height={"500"}
+    alt=""
+    className="w-full h-full object-cover"/>
+  {/* <Image src={slectBlog[0]?.image_source}
+    width={"500"}
+    height={"500"}
+    alt=""
+    className="w-full h-full object-cover"/> */}
   </div>
   {/* Image Div 2 */}
   <div className="w-[200px] h-[200px]">
   <Image src={slectBlog[0]?.image_source}
-    width={"500"}
-    height={"500"}
+    width={"300"}
+    height={"300"}
     alt=""
     className="w-full h-full object-cover"/>
   </div>
