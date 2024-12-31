@@ -93,15 +93,15 @@ const MyPage: React.FC = () => {
 
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
                   {[
-                    { name: 'Processing', img: '/images/dress.webp' },
-                    { name: 'In Transit', img: '/images/transat.webp' },
-                    { name: 'Delivery Completed', img: '/images/delivery.webp' },
-                    { name: 'Cancelled', img: '/images/cancel.webp' },
-                    { name: 'Refunded', img: '/images/refuse.webp' },
+                   { name: 'Processing', img: '/images/dress.webp', slug: 'processing' },
+                   { name: 'In Transit', img: '/images/transat.webp', slug: 'in-transit' },
+                   { name: 'Delivery Completed', img: '/images/delivery.webp', slug: 'delivery-completed' },
+                   { name: 'Cancelled', img: '/images/cancel.webp', slug: 'cancelled' },
+                   { name: 'Refunded', img: '/images/refuse.webp', slug: 'refunded' },
                   ].map((status, index) => (
                     <Link
                       key={index}
-                      href={`/mypage/orders/${status.name.toLowerCase().replace(' ', '-')}`}
+                      href={`/mypage/orders/${status.slug.toLowerCase().replace(' ', '-')}`}
                       
                     >
                       <li className="flex flex-col items-center p-4 rounded-lg cursor-pointer transition-all bg-gray-50 hover:bg-[#e5aaa3] hover:text-white group">
