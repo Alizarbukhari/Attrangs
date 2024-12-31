@@ -11,6 +11,7 @@ export default function Related_Product() {
   discount: "-200.00%",
   price: "90000",
   description: "Test Product 1",
+  link:"/product/Chiffon-Wrap-Aurora-Dress",
 },
 {
   id: 2,
@@ -19,6 +20,7 @@ export default function Related_Product() {
   discount: "-15.00%",
   price: "2125",
   description: "Test Product 2",
+  link:"/product/Pocket-Trim-Oversized-Long-Sleeve-Tee",
 },
 {
   id: 3,
@@ -27,6 +29,8 @@ export default function Related_Product() {
   discount: "-10.00%",
   price: "3150",
   description: "Test Product 3",
+  link:"/product/Bodywarm-Functional-Turtleneck-Tee",
+  
 },
 {
   id: 4,
@@ -35,6 +39,7 @@ export default function Related_Product() {
   discount: "-10.00%",
   price: "3150",
   description: "Test Product 4",
+  link:"/product/Qubeen-Pitch-Fleece-Lined-Lettering-Trim-T-shirt",
 },
 {
   id: 5,
@@ -43,6 +48,7 @@ export default function Related_Product() {
   discount: "-10.00%",
   price: "3150",
   description: "Test Product 4",
+  link:"/product/Qubeen-Pitch-Fleece-Lined-Lettering-Trim-T-shirt",
 },
   // Add more products as needed
 ];
@@ -65,6 +71,7 @@ export default function Related_Product() {
               discount={product.discount}
               price={product.price}
               description={product.description}
+              link={product.link}
             />
           ))}
         </div>

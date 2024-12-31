@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa";
 import { useWishlist } from "./context/WishlistContext";
 import { IoBagOutline } from "react-icons/io5";
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -13,6 +14,7 @@ interface Product {
   discount: string;
   price: string;
   description: string;
+  link?:string;
 }
 
 
@@ -45,8 +47,9 @@ const PageCard = (props:Product) => {
   {/* Transparent overlay for hover effect */}
   <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded"></div>
   {/* Text in the center */}
+ 
   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white border border-white px-6 py-3 rounded opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-    Hovered Text
+  <Link href={`${props.link}`}>Hovered Text</Link>
   </div>
 </div>
 
