@@ -7,29 +7,29 @@ export const APP_LINKS: NaveType = [
   },
   {
     name: "Dresses",
-    href: "dresses",
+    href: "/category/dresses",
   },
   
 
   {
     name: "Tops",
-    href: "tops",
+    href: "/category/tops",
   },
   {
     name: "Sweatshirts&Hoodies",
-    href: "/sweatshirts-&-Hoodies",
+    href: "/category/sweatshirts-&-Hoodies",
   },
   {
     name: "Outerwear",
-    href: "/outerwear",
+    href: "/category/outerwear",
   },
   {
     name: "Skirts",
-    href: "/skirts",
+    href: "/category/skirts",
   },
   {
     name: "Pants",
-    href: "/pants",
+    href: "/category/pants",
   },
   {
     name: "Shop",

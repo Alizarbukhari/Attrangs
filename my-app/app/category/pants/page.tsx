@@ -1,6 +1,6 @@
 
-import Navbar4 from '../components/navbar4';
-import PageCard from '../components/pagecard';
+import Navbar4 from '../../components/navbar4';
+import PageCard from '../../components/pagecard';
 
 export default function Pants() {
   // Mock data array

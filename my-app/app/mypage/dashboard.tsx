@@ -1,13 +1,15 @@
+// components/MyPage.tsx
+
 "use client";
 
 import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Imported Image from next/image
+import Image from 'next/image';
 import { AuthContext } from '../../context/Aouthcontext';
 import { useRouter } from 'next/navigation';
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoSettingsOutline } from 'react-icons/io5';
 
-const MyPage = () => {
+const MyPage: React.FC = () => {
   const { user, logout, loading } = useContext(AuthContext);
   const router = useRouter();
 
@@ -34,7 +36,7 @@ const MyPage = () => {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-center">
             My Page
           </h2>
-          
+
           <div className="mb-4 sm:mb-6">
             <div className="container mx-auto px-4 md:px-6">
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -51,20 +53,23 @@ const MyPage = () => {
                 <div className="flex-grow text-center md:text-left">
                   <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
                     <h2 className="text-2xl md:text-3xl text-gray-500 font-semibold">
-                      <span style={{textTransform: 'capitalize'}}>
+                      <span style={{ textTransform: 'capitalize' }}>
                         {user.firstName} {user.lastName}
                       </span>
                     </h2>
-                    
+
                     <div className="flex flex-col gap-2 ml-10">
                       <Link href="/mypage/update">
-                        <div className="text-sm bg-white px-2 py-1 cursor-pointer rounded flex items-center gap-1 hover:bg-gray-50">
+                        <li className="text-sm bg-white px-2 py-1 cursor-pointer rounded flex items-center gap-1 hover:bg-gray-50">
                           <IoSettingsOutline />
                           Correction
-                        </div>
+                        </li>
                       </Link>
-                      
-                      <button onClick={logout} className="text-sm bg-white px-2 py-1 cursor-pointer rounded flex items-center gap-1 hover:bg-gray-50">
+
+                      <button
+                        onClick={logout}
+                        className="text-sm bg-white px-2 py-1 cursor-pointer rounded flex items-center gap-1 hover:bg-gray-50"
+                      >
                         Log Out
                       </button>
                     </div>
@@ -88,24 +93,32 @@ const MyPage = () => {
 
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
                   {[
-                    { name: "Processing", img: "/images/dress.webp" },
-                    { name: "In Transit", img: "/images/transat.webp" },
-                    { name: "Delivery Completed", img: "/images/delivery.webp" },
-                    { name: "Cancelled", img: "/images/cancel.webp" },
-                    { name: "Refunded", img: "/images/refuse.webp" },
+                   { name: 'Processing', img: '/images/dress.webp', slug: 'processing' },
+                   { name: 'In Transit', img: '/images/transat.webp', slug: 'in-transit' },
+                   { name: 'Delivery Completed', img: '/images/delivery.webp', slug: 'delivery-completed' },
+                   { name: 'Cancelled', img: '/images/cancel.webp', slug: 'cancelled' },
+                   { name: 'Refunded', img: '/images/refuse.webp', slug: 'refunded' },
                   ].map((status, index) => (
-                    <div key={index} className="flex flex-col items-center p-4 rounded-lg cursor-pointer transition-all bg-gray-50 hover:bg-[#e5aaa3] hover:text-white group">
-                      <div className="w-12 h-12 mb-2 flex items-center justify-center">
-                        <Image
-                          src={status.img}
-                          alt={status.name}
-                          width={32} // Adjusted width
-                          height={32} // Adjusted height
-                          className="w-8 h-8 group-hover:filter group-hover:brightness-0 group-hover:invert"
-                        />
-                      </div>
-                      <span className="text-sm text-center font-medium">{status.name}</span>
-                    </div>
+                    <Link
+                      key={index}
+                      href={`/mypage/orders/${status.slug.toLowerCase().replace(' ', '-')}`}
+                      
+                    >
+                      <li className="flex flex-col items-center p-4 rounded-lg cursor-pointer transition-all bg-gray-50 hover:bg-[#e5aaa3] hover:text-white group">
+                        <div className="w-12 h-12 mb-2 flex items-center justify-center">
+                          <Image
+                            src={status.img}
+                            alt={status.name}
+                            width={32}
+                            height={32}
+                            className="w-8 h-8 group-hover:filter group-hover:brightness-0 group-hover:invert"
+                          />
+                        </div>
+                        <span className="text-sm text-center font-medium">
+                          {status.name}
+                        </span>
+                      </li>
+                    </Link>
                   ))}
                 </div>
               </div>
