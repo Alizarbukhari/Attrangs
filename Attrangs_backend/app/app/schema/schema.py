@@ -83,3 +83,32 @@ class User_Update(BaseModel):
 
 
 
+
+# Product Schema
+class Product(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    slug: str
+    description: Optional[str] = None
+    price: float
+    image: Optional[str] = None
+    old_price: Optional[float] = None
+    discount: Optional[float] = None
+
+class ProductCreate(BaseModel):
+    name: str
+    slug: str
+    description: Optional[str] = None
+    price: float
+    image: Optional[str] = None
+    old_price: Optional[float] = None
+    discount: Optional[float] = None
+
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    slug: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    image: Optional[str] = None
+    old_price: Optional[float] = None
+    discount: Optional[float] = None

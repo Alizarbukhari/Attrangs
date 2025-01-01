@@ -44,7 +44,7 @@ export default function Navbar3({ onSearchOpen }: Navbar3Props) {
         {/* Desktop View */}
         <div className='w-full h-auto md:h-[80px] hidden md:flex gap-6 bg-white items-center justify-center'>
           {/* Brand Name */}
-          <div className="text-3xl tracking-[5px] text-[#877b73] font-semibold">ATTRANGS</div>
+          <div className="text-3xl tracking-[5px] text-[#877b73] font-semibold"><Link href={"/"}>ATTRANGS</Link></div>
           
           {/* Navigation Links */}
           <div className="flex gap-4">
@@ -98,7 +98,7 @@ export default function Navbar3({ onSearchOpen }: Navbar3Props) {
             </div>
             
             {/* Brand Name */}
-            <div className="text-xl tracking-[5px] text-[#877b73] font-semibold">ATTRANGS</div>
+            <div className="text-xl tracking-[5px] text-[#877b73] font-semibold"><Link href={"/"}>ATTRANGS</Link></div>
             
             {/* Right Icons */}
             <div className="text-3xl flex text-[#877b73] gap-3">
