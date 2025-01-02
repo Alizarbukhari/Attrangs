@@ -8,6 +8,7 @@ import Providers from "./addtocart/layout";
 import Footer from "./components/footer";
 import { ToastContainer } from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import ClientLayout from './login/client_layout';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,21 +36,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          {children}
-          <Footer />
-          {/* Add ToastContainer here */}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            pauseOnHover
-            draggable
-            pauseOnFocusLoss
-          />
-        </Providers>
+        <ClientLayout>
+          <Providers>
+            {children}
+            <Footer />
+            {/* Add ToastContainer here */}
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              pauseOnHover
+              draggable
+              pauseOnFocusLoss
+            />
+          </Providers>
+        </ClientLayout>
       </body>
     </html>
   );

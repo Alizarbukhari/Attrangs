@@ -2,25 +2,31 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Cookies check karein
+  console.log('Middleware executed for:', request.nextUrl.pathname);
   const authToken = request.cookies.get('auth_token');
   const userData = request.cookies.get('user_data');
+  const tokenExpiration = request.cookies.get('token_expiration');
 
-  // 1. Protected Routes Check
+  if (tokenExpiration) {
+    const expirationDate = new Date(tokenExpiration.value);
+    if (new Date() > expirationDate) {
+      console.log('Token expired, redirecting to login');
+      return NextResponse.redirect(new URL('/login', request.url));
+    } else {
+      console.log('Token is still valid');
+    }
+  }
+
   if (request.nextUrl.pathname.startsWith('/mypage')) {
     if (!authToken || !userData) {
-      // Agar user logged in nahi hai to login page par redirect
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 
-  // 2. Already Logged In Users Check
   if (request.nextUrl.pathname === '/login' && authToken && userData) {
-    // Agar user already logged in hai to mypage par redirect
     return NextResponse.redirect(new URL('/mypage', request.url));
   }
 
-  // 3. Allow the request to continue
   return NextResponse.next();
 }
 

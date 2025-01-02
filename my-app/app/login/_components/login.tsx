@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import { Input } from "../ui/input"; // Adjust paths
 import { Button } from "../ui/button";
@@ -11,16 +11,26 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../../../context/Aouthcontext'; // Correct path
 import { setCookie } from 'cookies-next'; // Install cookies-next package first
+import { jwtDecode } from "jwt-decode";
+import { getCookie } from 'cookies-next';
 
 interface LoginResponse {
   access_token: string;
   token_type: string;
   firstName: string;
   lastName: string;
+  refresh_token: string;
 }
 
 interface ErrorResponse {
   detail?: string;
+}
+
+interface User {
+  username: string;
+  firstName: string;
+  lastName: string;
+  token: string;
 }
 
 export default function LoginPage() {
@@ -30,27 +40,21 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
   const router = useRouter(); // Initialize router for navigation
-  const { login } = useContext(AuthContext); // Access login function and loading state from context
+  const context = useContext(AuthContext);
+
+  if (!context) return null;
+  const { login, user } = context;
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Use environment variable
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-  
-    // Debug: Log form data being sent
-    console.log('Sending login request with:', {
-      username: email,
-      password: password?.length > 0 ? 'password-provided' : 'no-password'
-    });
 
     try {
       const formData = new URLSearchParams();
       formData.append('username', email);
       formData.append('password', password);
-
-      // Debug: Log the API URL
-      console.log('Making request to:', `${API_URL}/login`);
 
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
@@ -60,87 +64,25 @@ export default function LoginPage() {
         body: formData.toString(),
       });
 
-      // Debug: Log raw response
-      console.log('Raw response:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries())
-      });
-
       if (response.ok) {
-        const data: LoginResponse = await response.json();
-        // Debug: Log successful response data
-        console.log('Login response data:', {
-          hasToken: !!data.access_token,
+        const data = await response.json();
+        console.log('Raw response:', response);
+        console.log('Login response data:', data);  // Check full response data
+        console.log('Refresh token:', data.refresh_token);  // Check specifically for refresh token
+
+        login({
+          username: email,
           firstName: data.firstName,
-          lastName: data.lastName
+          lastName: data.lastName,
+          token: data.access_token,
+          refreshToken: data.refresh_token
         });
 
-        toast.success('Login successful!', {
-          position: "top-right",
-          autoClose: 5000,
-        });
-
-        // Store token and user details in AuthContext
-        if (data.access_token && data.firstName && data.lastName) {
-          login({ 
-            username: email, // Or replace with actual username if available
-            firstName: data.firstName,
-            lastName: data.lastName,
-            token: data.access_token 
-          });
-          console.log("Login function called with:", { 
-            username: email, 
-            firstName: data.firstName,
-            lastName: data.lastName,
-            token: data.access_token 
-          });
-        }
-
-        // Set cookies with token and user info
-        setCookie('auth_token', data.access_token, {
-          maxAge: 30 * 24 * 60 * 60, // 30 days
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict'
-        });
-
-        setCookie('user_info', JSON.stringify({
-          email,
-          firstName: data.firstName,
-          lastName: data.lastName
-        }));
-
-        // Redirect to MyPage
-        router.push('/mypage'); // Change '/mypage' to your desired route
-      } else {
-        // Debug: Log error response
-        const rawErrorText = await response.text();
-        console.log('Error response raw text:', rawErrorText);
-        
-        let errorData: ErrorResponse;
-        try {
-          errorData = JSON.parse(rawErrorText);
-        } catch (parseError) {
-          console.error("Error parsing error response:", parseError);
-          errorData = { detail: 'Failed to login.' };
-        }
-        
-        console.error('Login failed with error:', errorData);
-        toast.error(errorData.detail || 'Failed to login.', {
-          position: "top-right",
-          autoClose: 5000,
-        });
+        router.push('/mypage');
       }
     } catch (error) {
-      // Debug: Log network or other errors
-      console.error('Network or other error:', error);
-      toast.error('An unexpected error occurred.', {
-        position: "top-right",
-        autoClose: 5000,
-      });
-    } finally {
-      setIsLoading(false);
+      console.error('Login error:', error);
+      toast.error('Login failed');
     }
   };
 
@@ -148,6 +90,71 @@ export default function LoginPage() {
     // Implement Google OAuth login
     window.location.href = `${API_URL}/auth/google`;
   };
+
+  // Add token refresh check
+  useEffect(() => {
+    const checkAndRefreshToken = async () => {
+      const token = getCookie('auth_token') as string;
+      if (!token) return;
+
+      try {
+        const decodedToken = jwtDecode<{ exp: number }>(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          const refreshToken = getCookie('refresh_token') as string;
+          if (!refreshToken) {
+            // No refresh token, need to login again
+            router.push('/login');
+            return;
+          }
+
+          // Try to get new tokens
+          const response = await fetch(`${API_URL}/refresh`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            
+            // Update tokens
+            setCookie('auth_token', data.access_token, {
+              maxAge: 15 * 60,
+              path: '/',
+            });
+            
+            setCookie('refresh_token', data.refresh_token, {
+              maxAge: 7 * 24 * 60 * 60,
+              path: '/',
+            });
+
+            // Update context
+            login({
+              username: user?.username || email,
+              firstName: user?.firstName || '',
+              lastName: user?.lastName || '',
+              token: data.access_token,
+              refreshToken: data.refresh_token
+            });
+          } else {
+            // Refresh failed, redirect to login
+            router.push('/login');
+          }
+        }
+      } catch (error) {
+        console.error('Token refresh error:', error);
+        router.push('/login');
+      }
+    };
+
+    // Check token every minute
+    const interval = setInterval(checkAndRefreshToken, 60000);
+    return () => clearInterval(interval);
+  }, [router, user]);
 
   return (
     <div className="flex bg-white justify-center items-center min-h-screen">

@@ -25,7 +25,13 @@ interface Navbar3Props {
 }
 
 export default function Navbar3({ onSearchOpen }: Navbar3Props) {
-  const { user } = useContext(AuthContext);
+  const context = useContext(AuthContext);
+  
+  if (!context) {
+    return null; // or loading state
+  }
+  
+  const { user } = context;
   const router = useRouter();
 
   const handleUserIconClick = () => {
