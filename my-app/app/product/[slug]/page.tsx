@@ -68,17 +68,12 @@ export default function Products({ params }: { params: { slug: string } }) {
   {/* Image Div */}
   <div className="flex flex-col gap-2">
     {/* Image Div 1 */}
-  <div className="w-full md:w-[750px] h-[400px] md:h-[1000px] bg-green-400">
+  <div className="w-full md:w-[750px] h-[400px] md:h-[1000px]">
     <Image src={slectBlog[0]?.image_source}
     width={"500"}
     height={"500"}
     alt=""
     className="w-full h-full object-cover"/>
-  {/* <Image src={slectBlog[0]?.image_source}
-    width={"500"}
-    height={"500"}
-    alt=""
-    className="w-full h-full object-cover"/> */}
   </div>
   {/* Image Div 2 */}
   <div className="w-[200px] h-[200px]">
