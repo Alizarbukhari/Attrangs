@@ -10,7 +10,7 @@ if not connection_string:
     raise ValueError("DATABASE_URL environment variable not set")
 
 
-engine = create_engine(connection_string)
+engine = create_engine(connection_string , echo=True)
 
 
     

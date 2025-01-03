@@ -5,6 +5,8 @@ import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa";
 import { useWishlist } from "./context/WishlistContext";
 import { IoBagOutline } from "react-icons/io5";
+import { CalendarDays } from 'lucide-react';
+import Cart_Button from './cart_button';
 
 interface Product {
   id: number;
@@ -13,6 +15,7 @@ interface Product {
   discount: string;
   price: string;
   description: string;
+  link?: string;
 }
 
 const productData: Product[] = [
@@ -119,11 +122,11 @@ const Card: React.FC = () => {
         <button onClick={() => addToWishlist(product)} className="  rounded">
           <FaRegHeart className='text-[24px] text-gray-500'/>
           </button>
-          
+{/*           
           <button onClick={showCartHandler} className=" text-white flex item-center  rounded">
             <IoBagOutline className="inline-block text-[24px] text-gray-500" /> 
-          </button>
-         
+          </button> */}
+         <Cart_Button/>
         </div>
       </div>
     </div>

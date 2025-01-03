@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel,Field # type: ignore
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr # type: ignore                                                                                                             
 from typing import Optional
 
 
@@ -89,26 +89,29 @@ class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     slug: str
+    category: str   
     description: Optional[str] = None
     price: float
     image: Optional[str] = None
     old_price: Optional[float] = None
-    discount: Optional[float] = None
+    discount: Optional[str] = None
 
 class ProductCreate(BaseModel):
     name: str
     slug: str
+    category: str
     description: Optional[str] = None
     price: float
     image: Optional[str] = None
     old_price: Optional[float] = None
-    discount: Optional[float] = None
+    discount: Optional[str] = None
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     slug: Optional[str] = None
+    category: Optional[str] = None
     description: Optional[str] = None
     price: Optional[float] = None
     image: Optional[str] = None
     old_price: Optional[float] = None
-    discount: Optional[float] = None
+    discount: Optional[str] = None

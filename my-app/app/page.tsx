@@ -4,6 +4,7 @@ import Header from "./components/header"
 import Navbar1 from "./components/navbar1"
 import SlideImages from "./components/slideImages"
 import Text1 from "./components/text1"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -25,6 +26,12 @@ export default function Home() {
 </div>
 
 <Card/>
+{/* more button */}
+<div className="flex justify-center mt-10 mb-6">
+  <Link href="/shop">
+   <button className="text-xs px-12 py-4" style={{color:'#9e9087',border:'1px solid #9e9087'}}>MORE</button>
+   </Link>
+</div>
 
 
 

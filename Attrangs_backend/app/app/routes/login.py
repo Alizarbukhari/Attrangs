@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException, status, Body # type: ignore
 from sqlmodel import Session  # type: ignore
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm # type: ignore
 from ..crud.crud import authenticate_user
 from ..auth.auth import create_access_token, SECRET_KEY, ALGORITHM
 from datetime import timedelta
 from ..database.db import get_session
 from ..crud.dependency import create_access_token
 from jose import jwt, JWTError # type: ignore
-from fastapi import Request
+from fastapi import Request # type: ignore
 
 router = APIRouter()
 

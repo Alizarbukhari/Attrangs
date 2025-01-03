@@ -9,6 +9,7 @@ interface Product {
   discount: string;
   price: string;
   description: string;
+  link?: string;
 }
 
 // Define the context type
