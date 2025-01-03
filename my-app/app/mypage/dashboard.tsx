@@ -10,7 +10,10 @@ import { useRouter } from 'next/navigation';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 const MyPage: React.FC = () => {
-  const { user, logout, loading } = useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) return null;
+  
+  const { user, logout, loading } = context;
   const router = useRouter();
 
   useEffect(() => {

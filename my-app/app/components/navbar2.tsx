@@ -52,7 +52,7 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
         {/* Desktop View */}
         <div className='w-full h-auto md:h-[80px] hidden md:flex gap-6  items-center justify-center'>
           {/* Brand Name */}
-          <div className="text-3xl tracking-[5px] text-white font-semibold">ATTRANGS</div>
+          <div className="text-3xl tracking-[5px] text-white font-semibold"><Link href={"/"}>ATTRANGS</Link></div>
           
           {/* Navigation Links */}
           <div className="flex gap-4">
@@ -75,12 +75,12 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
             
             {/* Shopping Bag Icon */}
             <div className="w-[18px] h-[18px]">
-              <RiShoppingBag3Line />
+              <Link href={"/cart"} ><RiShoppingBag3Line /></Link>
             </div>
             
             {/* Heart Icon */}
             <div className="w-[18px] h-[18px]">
-              <FaRegHeart />
+              <Link href={"/wishlist"}><FaRegHeart /></Link>
             </div>
             
             {/* Search Icon */}
@@ -97,11 +97,11 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
             {/* Left Icons */}
             <div className="text-3xl flex text-white gap-3">
               <ShowNav />
-              <FaRegHeart />
+              <Link href={"/wishlist"}><FaRegHeart /></Link >
             </div>
             
             {/* Brand Name */}
-              <div className="text-xl tracking-[5px] text-white font-semibold">ATTRANGS</div>
+              <div className="text-xl tracking-[5px] text-white font-semibold"><Link href={"/"}>ATTRANGS</Link></div>
             
             {/* Right Icons */}
             <div className="text-3xl flex text-white gap-3">
@@ -111,7 +111,7 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
                 className={`cursor-pointer ${user ? 'text-white' : 'text-white'}`}
                 title={user ? `Welcome, ${user.firstName}` : 'Login'} 
               />
-              <IoBagOutline />
+              <Link href={"/cart"}>< IoBagOutline /></Link >
             </div>
           </div>
           
