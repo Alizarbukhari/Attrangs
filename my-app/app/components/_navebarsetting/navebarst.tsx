@@ -6,7 +6,7 @@ function Navebarst() {
   return (
     <>
     <SliderComponent/>
-    <Navbar3/>
+    <Navbar3 onSearchOpen={() => {}}/>
     
     </>
   )
