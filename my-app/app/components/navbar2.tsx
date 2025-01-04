@@ -128,7 +128,7 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
               <div>N in</div>
             </div>
             
-            {/* Additional Navigation */}
+            
             <div>
               <NavArrowBar bgColor="bg-white"/>
             </div>

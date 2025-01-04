@@ -49,7 +49,7 @@ const PageCard = (props:Product) => {
   {/* Text in the center */}
  
   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white border border-white px-6 py-3 rounded opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-  <Link href={`${props.link}`}>Hovered Text</Link>
+  <Link href={`/product/${props.link}`}>Hovered Text</Link>
   </div>
 </div>
 
