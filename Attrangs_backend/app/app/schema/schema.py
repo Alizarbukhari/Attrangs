@@ -2,6 +2,7 @@ from sqlmodel import SQLModel,Field # type: ignore
 
 from pydantic import BaseModel, EmailStr # type: ignore                                                                                                             
 from typing import Optional
+from datetime import datetime
 
 
 class User_Register(SQLModel, table=True):
@@ -95,6 +96,9 @@ class Product(SQLModel, table=True):
     image: Optional[str] = None
     old_price: Optional[float] = None
     discount: Optional[str] = None
+    stock: Optional[float] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
 class ProductCreate(BaseModel):
     name: str
@@ -105,6 +109,8 @@ class ProductCreate(BaseModel):
     image: Optional[str] = None
     old_price: Optional[float] = None
     discount: Optional[str] = None
+    stock: Optional[float] = None
+
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
@@ -115,3 +121,8 @@ class ProductUpdate(BaseModel):
     image: Optional[str] = None
     old_price: Optional[float] = None
     discount: Optional[str] = None
+    stock: Optional[float] = None
+    
+    
+    
+

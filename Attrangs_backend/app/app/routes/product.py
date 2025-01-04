@@ -1,13 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile  # type: ignore
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, Query  # type: ignore
 import httpx  # type: ignore
 from sqlmodel import Session, select  # type: ignore
-from typing import List
+from typing import List, Optional
 from ..database.db import get_session
 from ..schema.schema import Product, ProductCreate, ProductUpdate
 from dotenv import load_dotenv  # type: ignore
 import os
 import uuid
 import asyncio
+from datetime import datetime
 
 load_dotenv()
 
@@ -97,19 +98,47 @@ async def upload(file: UploadFile = File(...)):
 
 @router4.post("/products", response_model=Product)
 def create_product(product: ProductCreate, session: Session = Depends(get_session)):
-    db_product = Product(**product.model_dump())
-    session.add(db_product)
-    session.commit()
-    session.refresh(db_product)
-    return db_product
+    try:
+        db_product = Product(**product.model_dump(), created_at=datetime.utcnow(), updated_at=datetime.utcnow())
+        session.add(db_product)
+        session.commit()
+        session.refresh(db_product)
+        return db_product
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=f"Error creating product: {str(e)}")
 
 @router4.get("/products", response_model=List[Product])
-def get_products(session: Session = Depends(get_session)):
+def get_products(
+    session: Session = Depends(get_session),
+    sort_by: Optional[str] = Query("created_at", description="Sort by field"),
+    order: Optional[str] = Query("asc", description="Order: asc or desc"),
+    min_price: Optional[float] = Query(None, description="Minimum price"),
+    max_price: Optional[float] = Query(None, description="Maximum price")
+):
     try:
-        products = session.exec(select(Product)).all()
+        query = select(Product)
+
+        # Apply price filtering
+        if min_price is not None:
+            query = query.where(Product.price >= min_price)
+        if max_price is not None:
+            query = query.where(Product.price <= max_price)
+
+        # Apply sorting
+        if sort_by:
+            sort_column = getattr(Product, sort_by, None)
+            if sort_column is None:
+                raise HTTPException(status_code=400, detail=f"Invalid sort field: {sort_by}")
+            if order == "desc":
+                query = query.order_by(sort_column.desc())
+            else:
+                query = query.order_by(sort_column.asc())
+
+        products = session.exec(query).all()
         return products
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Error fetching products: {str(e)}")
 
 @router4.get("/products/{product_id}", response_model=Product)
 def get_product(product_id: int, session: Session = Depends(get_session)):
@@ -120,28 +149,37 @@ def get_product(product_id: int, session: Session = Depends(get_session)):
 
 @router4.put("/products/{product_id}", response_model=Product)
 def update_product(product_id: int, product_update: ProductUpdate, session: Session = Depends(get_session)):
-    db_product = session.get(Product, product_id)
-    if not db_product:
-        raise HTTPException(status_code=404, detail="Product not found")
+    try:
+        db_product = session.get(Product, product_id)
+        if not db_product:
+            raise HTTPException(status_code=404, detail="Product not found")
 
-    product_data = product_update.dict(exclude_unset=True)
-    for key, value in product_data.items():
-        setattr(db_product, key, value)
+        product_data = product_update.dict(exclude_unset=True)
+        for key, value in product_data.items():
+            setattr(db_product, key, value)
 
-    session.add(db_product)
-    session.commit()
-    session.refresh(db_product)
-    return db_product
+        db_product.updated_at = datetime.utcnow()  # Update the timestamp
+        session.add(db_product)
+        session.commit()
+        session.refresh(db_product)
+        return db_product
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=f"Error updating product: {str(e)}")
 
 @router4.delete("/products/{product_id}")
 def delete_product(product_id: int, session: Session = Depends(get_session)):
-    product = session.get(Product, product_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+    try:
+        product = session.get(Product, product_id)
+        if not product:
+            raise HTTPException(status_code=404, detail="Product not found")
 
-    session.delete(product)
-    session.commit()
-    return {"message": "Product deleted successfully"}
+        session.delete(product)
+        session.commit()
+        return {"message": "Product deleted successfully"}
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=f"Error deleting product: {str(e)}")
 
 @router4.post("/products/with-image")
 async def create_product_with_image(
@@ -152,6 +190,8 @@ async def create_product_with_image(
     description: str = None,  # type: ignore
     old_price: float = None,  # type: ignore
     discount: str = None,  # type: ignore
+    stock: float = None,  # type: ignore
+    
     file: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
@@ -180,7 +220,8 @@ async def create_product_with_image(
         "category": category,
         "image": image_url,
         "old_price": old_price,
-        "discount": discount
+        "discount": discount,
+        "stock": stock
     }
 
     db_product = Product(**product_data)

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-function SearchBar() {
+function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [sortBy, setSortBy] = useState('createdAt:desc');
+  const [sortBy, setSortBy] = useState('created_at:desc');
   const [inStock, setInStock] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +31,23 @@ function SearchBar() {
     setSearchTerm('');
     setMinPrice('');
     setMaxPrice('');
-    setSortBy('createdAt:desc');
+    setSortBy('created_at:desc');
     setInStock(false);
+  };
+
+  const handleSearch = () => {
+    const queryParams = new URLSearchParams();
+    if (searchTerm) queryParams.append('search', searchTerm);
+    if (minPrice) queryParams.append('min_price', minPrice);
+    if (maxPrice) queryParams.append('max_price', maxPrice);
+    if (sortBy) {
+      const [field, order] = sortBy.split(':');
+      queryParams.append('sort_by', field);
+      queryParams.append('order', order);
+    }
+    if (inStock) queryParams.append('in_stock', 'true');
+
+    onSearch(queryParams.toString());
   };
 
   return (
@@ -74,8 +89,8 @@ function SearchBar() {
             value={sortBy}
             onChange={handleSortByChange}
           >
-            <option value="createdAt:desc">Newest</option>
-            <option value="createdAt:asc">Oldest</option>
+            <option value="created_at:desc">Newest</option>
+            <option value="created_at:asc">Oldest</option>
             <option value="price:asc">Price: Low to High</option>
             <option value="price:desc">Price: High to Low</option>
             <option value="name:asc">Name: A to Z</option>
@@ -100,6 +115,12 @@ function SearchBar() {
           onClick={handleClearFilters}
         >
           Clear Filters
+        </button>
+        <button
+          className="text-sm px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ml-2"
+          onClick={handleSearch}
+        >
+          Search
         </button>
       </div>
     </div>
