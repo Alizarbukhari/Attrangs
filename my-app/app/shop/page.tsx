@@ -40,7 +40,7 @@ async function Product() {
               discount={product.discount}
               price={product.price}
               description={product.description}
-              link={product.link}
+              link={product.slug}
             />
           ))}
         </div>

@@ -55,6 +55,17 @@ async def upload_in_chunks(file_content, url, headers, chunk_size=5 * 1024 * 102
             if response.status_code not in (200, 201):
                 raise HTTPException(status_code=response.status_code, detail="Chunk upload failed")
         return response
+    
+
+@router4.get("/product/{slug}")
+def get_product(slug: str, db: Session = Depends(get_session)):
+    product = db.query(Product).filter(Product.slug == slug).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+
 
 @router4.get("/get-signed-url")
 async def get_signed_url(filename: str):
