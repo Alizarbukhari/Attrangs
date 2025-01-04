@@ -5,18 +5,11 @@ from sqlmodel import Session,select # type: ignore
 from typing import Optional
 from pydantic import BaseModel
 from ..schema.schema import User_Create_Register,User_Update,User_Register
-from ..crud.crud import get_user_by_username, get_user_by_email, create_user,update_user_data
+from ..crud.crud import get_user_by_username, get_user_by_email, create_user,get_password_hash,verify_password_hash
 from ..crud.dependency import get_current_user
 from ..database.db import get_session
-from passlib.context import CryptContext # type: ignore
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def verify_password_hash(plain_password: str, hashed_password: str) -> bool:
-        return pwd_context.verify(plain_password, hashed_password)
-
-def get_password_hash(password: str) -> str:
-        return pwd_context.hash(password)
 router1 = APIRouter()
 
 @router1.post("/register_user_register", )
@@ -38,8 +31,7 @@ def register_user(user: User_Create_Register, db: Session = Depends(get_session)
 
 
 @router1.put("/update-user/{user_id}", response_model=User_Update)
-
-def update_user_data(user_id: int, update_data: User_Update, db: Session = Depends(get_session)):
+def update_user_info(user_id: int, update_data: User_Update, db: Session = Depends(get_session)):
     # db.execute returns a Result object, we need the actual user
     db_user = db.scalar(select(User_Register).where(User_Register.id == user_id))
     if not db_user:
@@ -52,7 +44,7 @@ def update_user_data(user_id: int, update_data: User_Update, db: Session = Depen
     
     # Handle password hashing if password is being updated
     if "password" in update_dict:
-        update_dict["password"] = pwd_context.hash(update_dict["password"])
+        update_dict["password"] = get_password_hash(update_dict["password"])
     
     # Update only the fields provided
     for key, value in update_dict.items():

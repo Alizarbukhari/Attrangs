@@ -25,7 +25,7 @@ interface Navbar2Props {
 }
 
 export default function Navbar3({ onSearchOpen }: Navbar2Props) {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext) || {};
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -128,7 +128,7 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
               <div>N in</div>
             </div>
             
-            {/* Additional Navigation */}
+            
             <div>
               <NavArrowBar bgColor="bg-white"/>
             </div>

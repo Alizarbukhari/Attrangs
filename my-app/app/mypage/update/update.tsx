@@ -20,7 +20,7 @@ const EditMemberInfo: React.FC = () => {
   const [email, setEmail] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
-  const { logout, login } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext) || {};
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -165,8 +165,8 @@ const EditMemberInfo: React.FC = () => {
       
       // Agar password change hua hai
       if (newPassword) {
-        logout(); // User ko logout kar do
-        router.push('/login'); // Login page pe bhej do
+        logout?.(); // Optional chaining to safely call logout
+        router.push('/login');
       } else {
         // Agar password change nahi hua, to sirf profile update karo
         router.push('/mypage');
