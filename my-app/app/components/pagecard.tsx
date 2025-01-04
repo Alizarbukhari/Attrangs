@@ -6,6 +6,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { useWishlist } from "./context/WishlistContext";
 import { IoBagOutline } from "react-icons/io5";
 import Link from 'next/link';
+import Cart_Button from './cart_button';
 
 interface Product {
   id: number;
@@ -85,12 +86,11 @@ const PageCard = (props:Product) => {
 
         {/* Buttons */}
         <div className="flex gap-4">
-          <button onClick={showCartHandler} className=" text-white flex item-center  rounded">
-            <IoBagOutline className="inline-block text-[24px] text-gray-500" /> 
-          </button>
+         
           <button onClick={() => addToWishlist(props)} className="  rounded">
           <FaRegHeart className='text-[24px] text-gray-500'/>
           </button>
+          <Cart_Button/>
         </div>
       </div>
     </div>
