@@ -13,6 +13,7 @@ interface Product {
   image: string;
   description: string;
   price: string;
+  category:string;
 }
 // Backend se data fetch karne ka function
 async function fetchProduct(slug: string): Promise<Product | null> {
@@ -23,53 +24,7 @@ async function fetchProduct(slug: string): Promise<Product | null> {
   if (!res.ok) return null;
   return res.json();
 }
-// const Product_Data =[{
-//   id:1,
-//   title:"Chiffon Wrap Aurora Dress",
-//   slug:"Chiffon-Wrap-Aurora-Dress",
-//   image_source:"/card images/cardimage1.gif",
-//   description:"Chiffon Wrap Aurora Dress",
-//   price:"37.9",
 
-
-// },
-// {
-//   id:2,
-//   title:"Pocket Trim Oversized Long Sleeve Tee",
-//   slug:"Pocket-Trim-Oversized-Long-Sleeve-Tee",
-//   image_source:"/card images/cardimage2.gif",
-//   description:"Chiffon Wrap Aurora Dress",
-//   price:"47.9",
-
-// },
-// {
-//   id:3,
-//   title:"Bodywarm Functional Turtleneck Tee",
-//   slug:"Bodywarm-Functional-Turtleneck-Tee",
-//   image_source:"/card images/cardimage3.webp",
-//   description:"Chiffon Wrap Aurora Dress",
-//   price:"27.9",
-
-// },
-// {
-//   id:4,
-//   title:"Qubeen Pitch Fleece Lined Lettering Trim T-shirt",
-//   slug:"Qubeen-Pitch-Fleece-Lined-Lettering-Trim-T-shirt",
-//   image_source:"/card images/cardimage4.webp",
-//   description:"Chiffon Wrap Aurora Dress",
-//   price:"33.9",
-
-
-// },
-// {
-//   id:5,
-//   title:"Qubeen Pitch Fleece Lined Lettering Trim T-shirt",
-//   slug:"Qubeen-Pitch-Fleece-Lined-Lettering-Trim-T-shirt",
-//   image_source:"/card images/cardimage4.webp",
-//   description:"Chiffon Wrap Aurora Dress",
-//   price:"43.9",
-
-// }]
 
 export default async function Products({ params }: { params: { slug: string } }) {
   // const slectBlog = Product_Data.filter((item)=> item.slug === params.slug)
@@ -144,7 +99,7 @@ export default async function Products({ params }: { params: { slug: string } })
 
 {/* buttons div */}
 <div>
-  <Blog_Page_Navigation/>
+  <Blog_Page_Navigation Category={product.category}/>
 </div>
 
 
