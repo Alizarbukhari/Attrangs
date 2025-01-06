@@ -3,17 +3,16 @@ import { useState } from "react";
 import Related_Product from "./related_product";
 import Blog_Detail from "./blog_detail";
 import Blog_Review from "./blog_review";
- 
-interface Realted_Page_Type{
-  Category:string
-}
 
-export default function Blog_Page_Navigation( prop:Realted_Page_Type) {
+
+ 
+
+export default function Blog_Page_Navigation(prop:any) {
     const [activePage, setActivePage] = useState("related-products");
      // Render content based on activePage
   const renderContent = () => {
     if (activePage === "related-products") {
-      return <div><Related_Product Category={prop.Category}
+      return <div><Related_Product Product_data = {prop.Product_data}
       /></div>;
     }
     if (activePage === "details") {

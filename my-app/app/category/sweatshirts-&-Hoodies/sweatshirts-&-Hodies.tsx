@@ -2,131 +2,77 @@ import { fetchProducts, Product } from "@/app/api/search/productRout";
 import PageCard from "@/app/components/pagecard";
 
 const Sweatshirts = async () => {
-  // Fetch all products from the backend
-  const products: Product[] = await fetchProducts();
+  try {
+    // Fetch all products from the backend
+    const products: Product[] = await fetchProducts();
 
-  // Filter products by category 'dresses'
-  const filteredProducts = products.filter((product:any) => product.category === "swearts-hodies");
+    // Filter products by category 'swearts-hodies'
+    const filteredProducts = products.filter(
+      (product: any) => product.category === "swearts-hodies"
+    );
 
-  return (
-    <div>
-      {/* Spacer or Banner */}
-      <div className="w-full h-[150px] bg-white"></div>
+    if (filteredProducts.length === 0) {
+      // Handle case where no products are found in the 'swearts-hodies' category
+      return (
+        <div>
+          {/* Spacer or Banner */}
+          <div className="w-full h-[150px] bg-white"></div>
 
-      {/* Page Title */}
-      <div className="w-full h-[150px] flex items-center bg-[#f6f4ee]">
-        <p className="text-black p-8 text-2xl font-bold">Sweatshirt And Hoodis All Products</p>
-      </div>
+          {/* Page Title */}
+          <div className="w-full h-[150px] flex items-center bg-[#f6f4ee]">
+            <p className="text-black p-8 text-2xl font-bold">Sweatshirts & Hoodies All Products</p>
+          </div>
 
-      {/* Product Cards */}
-      <div className="mt-24 px-4">
-        {/* Grid Layout */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-          {filteredProducts.map((product) => (
-            <PageCard key={product.id} {...product} />
-          ))}
+          {/* No Products Message */}
+          <div className="mt-24 px-4 text-center">
+            <p className="text-gray-500 text-lg">No sweatshirts or hoodies available at the moment.</p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        {/* Spacer or Banner */}
+        <div className="w-full h-[150px] bg-white"></div>
+
+        {/* Page Title */}
+        <div className="w-full h-[150px] flex items-center bg-[#f6f4ee]">
+          <p className="text-black p-8 text-2xl font-bold">Sweatshirts & Hoodies All Products</p>
+        </div>
+
+        {/* Product Cards */}
+        <div className="mt-24 px-4">
+          {/* Grid Layout */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            {filteredProducts.map((product) => (
+              <PageCard key={product.id} {...product} />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("Error fetching products:", error);
+
+    // Handle fetch error
+    return (
+      <div>
+        {/* Spacer or Banner */}
+        <div className="w-full h-[150px] bg-white"></div>
+
+        {/* Page Title */}
+        <div className="w-full h-[150px] flex items-center bg-[#f6f4ee]">
+          <p className="text-black p-8 text-2xl font-bold">Sweatshirts & Hoodies All Products</p>
+        </div>
+
+        {/* Error Message */}
+        <div className="mt-24 px-4 text-center">
+          <p className="text-red-500 text-lg">Failed to load products. Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default Sweatshirts;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import PageCard from '../../components/pagecard';
-
-// export default async function Sweatshirts() {
-//   // Mock data array
-//   const getProducts = async () => {
-//     try {
-//       const response = await fetch('http://127.0.0.1:8000/products', {
-//         cache: 'no-store'
-//       });
-      
-//       if (!response.ok) {
-//         throw new Error('Failed to fetch products');
-//       }
-      
-//       return response.json();
-//     } catch (error) {
-//       console.error('Error:', error);
-//       return [];
-//     }
-//   };
-
-//   // Fetch and filter products
-//   const allProducts = await getProducts();
-//   const filteredProducts = allProducts.filter((product:any) => product.category === 'swearts-hodies');
-
-//   return (
-//     <>
-//       {/* Spacer or Banner */}
-//       <div className='w-full h-[150px] bg-white'>
-//         {/* You can add banner content here */}
-//       </div>
-
-//       {/* Page Title */}
-//       <div className='w-full h-[150px] flex items-center bg-[#f6f4ee]'>
-//         <p className='text-black p-8 text-2xl font-bold'>
-//         Sweatshirts & Hodies All Products
-//         </p>
-//       </div>
-
-//       {/* Product Cards */}
-//       <div className='mt-24 px-4'>
-//         {/* Grid Layout */}
-//         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-//           {filteredProducts.map((product:any) => (
-//             <PageCard
-//               key={product.id}
-//               id={product.id}
-//               image={product.image}
-//               oldPrice={product.oldPrice}
-//               discount={product.discount}
-//               price={product.price}
-//               description={product.description}
-//               link={product.slug}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-
-
-
