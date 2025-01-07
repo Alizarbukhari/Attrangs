@@ -1,9 +1,9 @@
 // context/WishlistContext.tsx
 
-'use client'; // Ensure this is a Client Component
+'use client';
 
 import React, { createContext, useReducer, ReactNode, Dispatch, useEffect, useState } from 'react';
-import { WishlistState, WishlistAction, Product } from '../../types/wishListType';
+import { WishlistState, WishlistAction } from '../../types/wishListType';
 import { wishlistReducer, initialWishlistState } from './wishListReducer';
 
 interface WishlistContextProps {
@@ -29,10 +29,13 @@ export const WishlistProvider: React.FC<ProviderProps> = ({ children }) => {
     if (typeof window !== 'undefined') {
       const persisted = localStorage.getItem('wishlistState');
       if (persisted) {
-        const parsed = JSON.parse(persisted);
-        // Ensure parsed data structure is correct
-        if (parsed && Array.isArray(parsed.wishlist)) {
-          dispatch({ type: 'INIT_WISHLIST', payload: parsed.wishlist });
+        try {
+          const parsed = JSON.parse(persisted);
+          if (parsed && Array.isArray(parsed.wishlist)) {
+            dispatch({ type: 'INIT_WISHLIST', payload: parsed.wishlist });
+          }
+        } catch (error) {
+          console.error("Failed to parse wishlist from localStorage:", error);
         }
       }
       setHydrated(true);
@@ -47,8 +50,7 @@ export const WishlistProvider: React.FC<ProviderProps> = ({ children }) => {
   }, [state, hydrated]);
 
   if (!hydrated) {
-    // Optionally, render a loading indicator or nothing
-    return null;
+    return null; // Prevents hydration mismatch
   }
 
   return (
