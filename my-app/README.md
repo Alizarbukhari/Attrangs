@@ -4,6 +4,8 @@ react library` is
 --legacy-peer-deps
 
 ## Getting Started
+example@gamail.com
+Saj@234assss
 
 First, run the development server:
 
