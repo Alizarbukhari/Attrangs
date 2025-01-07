@@ -1,8 +1,9 @@
-// components/Providers.tsx
-'use client'; // This marks the component as a Client Component
+// addtocart/layout.tsx
+
+'use client'; // Ensure this is a Client Component
 
 import React, { ReactNode } from 'react';
-import { WishlistProvider } from '../components/context/WishlistContext';
+import { WishlistProvider } from '../components/context/wishListContext'; // Import WishlistProvider
 
 interface ProvidersProps {
   children: ReactNode;

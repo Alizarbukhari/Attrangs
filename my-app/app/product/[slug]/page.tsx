@@ -6,21 +6,23 @@ import { fetchProducts } from "@/app/api/search/productRout";
 
 
 
-interface Product {
+
+// types.ts
+export interface Product {
   id: number;
-  name: string;
+  name: string | undefined;
   slug: string;
   image: string;
   description: string;
   price: string;
-  category: string;
+  category?: string;
 }
 
-// Backend se data fetch karne ka function
+// Backend se specific product data fetch karne ka function
 async function fetchProduct(slug: string): Promise<Product | null> {
   try {
     const res = await fetch(`http://127.0.0.1:8000/product/${slug}`, {
-      cache: "no-store", // Ensure fresh data
+      cache: "no-store",
     });
     if (!res.ok) return null;
     return await res.json();
@@ -30,19 +32,12 @@ async function fetchProduct(slug: string): Promise<Product | null> {
   }
 }
 
-
 export default async function Products({ params }: { params: { slug: string } }) {
-
-
-
-  let products_data = [];
+  let products_data: Product[] = [];
   try {
     products_data = await fetchProducts();
-    if (!Array.isArray(products_data)) {
-      throw new Error('Fetched products is not an array.');
-    }
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
     return (
       <div className="w-full flex justify-center items-center h-64">
         <p className="text-red-500">Failed to load related products.</p>
@@ -59,8 +54,8 @@ export default async function Products({ params }: { params: { slug: string } })
     );
   }
 
+  // Fetch specific product based on slug
   const product = await fetchProduct(params.slug);
-
 
   if (!product) {
     return (
@@ -70,9 +65,14 @@ export default async function Products({ params }: { params: { slug: string } })
     );
   }
 
+  // Filter related products by category
+  const related_products = products_data.filter(
+    (item: Product) => item.category === product.category
+  );
+
   return (
     <div className="w-full h-auto mb-28">
-      {/* First content div */}
+      {/* Product Details Section */}
       <div className="w-full h-[100px]"></div>
       <div className="w-full h-auto px-[20px] flex flex-col md:flex-row flex-wrap gap-4 md:gap-8">
         {/* Image Section */}
@@ -128,9 +128,9 @@ export default async function Products({ params }: { params: { slug: string } })
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Related Products Navigation */}
       <div>
-        <Blog_Page_Navigation product = {products_data} />
+        <Blog_Page_Navigation product={related_products} />
       </div>
     </div>
   );

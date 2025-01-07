@@ -1,71 +1,59 @@
-"use client"
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+// context/WishlistContext.tsx
 
-// Define the shape of a product
-interface Product {
-  id: number;
-  image: string;
-  oldPrice: string;
-  discount: string;
-  price: string;
-  description: string;
-  link?: string;
+'use client'; // Ensure this is a Client Component
+
+import React, { createContext, useReducer, ReactNode, Dispatch, useEffect, useState } from 'react';
+import { WishlistState, WishlistAction, Product } from '../../types/wishListType';
+import { wishlistReducer, initialWishlistState } from './wishListReducer';
+
+interface WishlistContextProps {
+  state: WishlistState;
+  dispatch: Dispatch<WishlistAction>;
 }
 
-// Define the context type
-interface WishlistContextType {
-  wishlist: Product[];
-  addToWishlist: (product: Product) => void;
-  removeFromWishlist: (productId: number) => void;
+export const WishlistContext = createContext<WishlistContextProps>({
+  state: initialWishlistState,
+  dispatch: () => null,
+});
+
+interface ProviderProps {
+  children: ReactNode;
 }
 
-// Create the context
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+export const WishlistProvider: React.FC<ProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer(wishlistReducer, initialWishlistState);
+  const [hydrated, setHydrated] = useState(false);
 
-// Provider component
-export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [wishlist, setWishlist] = useState<Product[]>([]);
-
-  // Load wishlist from localStorage on mount
+  // Load wishlist from localStorage on client-side
   useEffect(() => {
-    const storedWishlist = localStorage.getItem('wishlist');
-    if (storedWishlist) {
-      setWishlist(JSON.parse(storedWishlist));
+    if (typeof window !== 'undefined') {
+      const persisted = localStorage.getItem('wishlistState');
+      if (persisted) {
+        const parsed = JSON.parse(persisted);
+        // Ensure parsed data structure is correct
+        if (parsed && Array.isArray(parsed.wishlist)) {
+          dispatch({ type: 'INIT_WISHLIST', payload: parsed.wishlist });
+        }
+      }
+      setHydrated(true);
     }
   }, []);
 
-  // Save wishlist to localStorage whenever it changes
+  // Persist wishlist to localStorage when state changes
   useEffect(() => {
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (hydrated) {
+      localStorage.setItem('wishlistState', JSON.stringify(state));
+    }
+  }, [state, hydrated]);
 
-  const addToWishlist = (product: Product) => {
-    setWishlist(prevWishlist => {
-      if (prevWishlist.find(item => item.id === product.id)) {
-        alert("This product is already in your wishlist");
-        return prevWishlist;
-      }
-      alert("Your product has been added to the wishlist");
-      return [...prevWishlist, product];
-    });
-  };
-
-  const removeFromWishlist = (productId: number) => {
-    setWishlist(prevWishlist => prevWishlist.filter(item => item.id !== productId));
-  };
+  if (!hydrated) {
+    // Optionally, render a loading indicator or nothing
+    return null;
+  }
 
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist }}>
+    <WishlistContext.Provider value={{ state, dispatch }}>
       {children}
     </WishlistContext.Provider>
   );
-};
-
-// Custom hook for easy access
-export const useWishlist = () => {
-  const context = useContext(WishlistContext);
-  if (!context) {
-    throw new Error("useWishlist must be used within a WishlistProvider");
-  }
-  return context;
 };

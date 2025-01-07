@@ -5,6 +5,7 @@ import Blog_Detail from "./blog_detail";
 import Blog_Review from "./blog_review";
 
 
+
  
 
 export default function Blog_Page_Navigation(prop:any) {
@@ -12,8 +13,7 @@ export default function Blog_Page_Navigation(prop:any) {
      // Render content based on activePage
   const renderContent = () => {
     if (activePage === "related-products") {
-      return <div><Related_Product Product_data = {prop.Product_data}
-      /></div>;
+      return <div><Related_Product product_data={prop.product} /></div>;
     }
     if (activePage === "details") {
       return <div><Blog_Detail/></div>;

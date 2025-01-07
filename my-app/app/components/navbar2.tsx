@@ -80,7 +80,11 @@ export default function Navbar3({ onSearchOpen }: Navbar2Props) {
             
             {/* Heart Icon */}
             <div className="w-[18px] h-[18px]">
-              <Link href={"/wishlist"}><FaRegHeart /></Link>
+              <Link href={"/wishlist"}>
+              <button>
+              <FaRegHeart />
+              </button>
+              </Link>
             </div>
             
             {/* Search Icon */}

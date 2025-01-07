@@ -4,7 +4,6 @@ import Add_to_cart from '../functional_Components/add_to_cart';
 import React, { useState } from 'react';
 import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa";
-import { useWishlist } from "./context/WishlistContext";
 import { IoBagOutline } from "react-icons/io5";
 import Link from 'next/link';
 import Cart_Button from './cart_button';
@@ -23,7 +22,6 @@ interface Product {
 
 
 const Card = (props:Product) => {
-  const { addToWishlist } = useWishlist();
   // const [showCart, setShowCart] = useState(false);
 
   // const showCartHandler = () => {
@@ -89,7 +87,7 @@ const Card = (props:Product) => {
         {/* Buttons */}
         <div className="flex gap-4">
          {/* <Whishlist_Button /> */}
-          <button onClick={() => addToWishlist(props)} className="  rounded">
+          <button  className="  rounded">
           <FaRegHeart className='text-[24px] text-gray-500'/>
           </button>
           <Cart_Button/>

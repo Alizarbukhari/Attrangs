@@ -1,3 +1,4 @@
+"use client"
 import { IoBagOutline } from "react-icons/io5";
 import { useState } from "react";
 import Add_to_cart from "../functional_Components/add_to_cart";
