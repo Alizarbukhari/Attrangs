@@ -64,11 +64,11 @@ const PageCard: React.FC<PageCardProps> = (props) => {
           <div className="text-sm text-gray-600">Choose Options</div>
 
           {/* Buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             {/* Wishlist */}
             <WishlistButton product={props} />
             {/* Cart Button */}
-            <Cart_Button /> {/* Ensure Cart_Button is a Client Component if needed */}
+            <Cart_Button product={props}   /> {/* Ensure Cart_Button is a Client Component if needed */}
           </div>
         </div>
       </div>

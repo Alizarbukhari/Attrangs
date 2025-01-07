@@ -75,7 +75,12 @@ export default function Navbar3({ onSearchOpen }: Navbar3Props) {
             
             {/* Shopping Bag Icon */}
             <div className="w-[18px] h-[18px]">
-              <RiShoppingBag3Line />
+             <Link href={"/cart"}>
+             
+            <button>
+            <RiShoppingBag3Line />
+            </button>
+             </Link>
             </div>
             
             {/* Heart Icon */}

@@ -1,29 +1,33 @@
-"use client"
-import { IoBagOutline } from "react-icons/io5";
-import { useState } from "react";
-import Add_to_cart from "../functional_Components/add_to_cart";
-export default function Cart_Button() {
-    const [showCart, setShowCart] = useState(false);
+// components/CartButton.tsx
 
-    const showCartHandler = () => {
-        setShowCart(true); // Show the cart modal
-      };
-    
-      const closeCartHandler = () => {
-        setShowCart(false); // Close the cart modal
-      };
+'use client';
+
+import React from 'react';
+import { useCart } from './context/useCart';
+import { Product } from '../types/wishListType';
+import { toast } from 'react-toastify';
+import { IoBagOutline } from "react-icons/io5";
+
+interface CartButtonProps {
+  product: Product;
+}
+
+const CartButton: React.FC<CartButtonProps> = ({ product }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success(`${product.description} added to cart`);
+  };
 
   return (
-    <>
-    <div>
-    <button onClick={showCartHandler} className=" text-white flex item-center  rounded">
-            <IoBagOutline className="inline-block text-[24px] text-gray-500" /> 
-          </button>
-    </div>
-    <Add_to_cart showCart={showCart} onClose={closeCartHandler} />
-    
-    
-    
-    </>
-  )
-}
+    <button
+      onClick={handleAddToCart}
+      className="inline-block -mt-1 text-[24px] text-gray-500" 
+    >
+ <IoBagOutline />
+    </button>
+  );
+};
+
+export default CartButton;

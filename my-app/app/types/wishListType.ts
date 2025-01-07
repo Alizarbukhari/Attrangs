@@ -10,6 +10,20 @@ export interface Product {
   slug?: string;
 }
 
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface CartState {
+  cart: CartItem[];
+}
+
+export type CartAction =
+  | { type: 'INIT_CART'; payload: CartItem[] }
+  | { type: 'ADD_TO_CART'; payload: Product }
+  | { type: 'REMOVE_FROM_CART'; payload: { id: number } }
+  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } };
+
 export interface WishlistState {
   wishlist: Product[];
 }

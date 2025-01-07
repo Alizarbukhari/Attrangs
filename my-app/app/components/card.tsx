@@ -90,7 +90,7 @@ const Card = (props:Product) => {
           <button  className="  rounded">
           <FaRegHeart className='text-[24px] text-gray-500'/>
           </button>
-          <Cart_Button/>
+      
         </div>
       </div>
     </div>

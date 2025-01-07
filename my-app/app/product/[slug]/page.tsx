@@ -37,7 +37,6 @@ export default async function Products({ params }: { params: { slug: string } })
   try {
     products_data = await fetchProducts();
   } catch (error) {
-    console.error("Error fetching products:", error);
     return (
       <div className="w-full flex justify-center items-center h-64">
         <p className="text-red-500">Failed to load related products.</p>
