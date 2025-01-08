@@ -1,7 +1,7 @@
 // context/useWishlist.ts
 
 import { useContext } from 'react';
-import { WishlistContext } from './wishListContext';
+import { WishlistContext } from './WishlistContext';
 import { Product } from '../../types/wishListType';
 
 interface UseWishlistHook {

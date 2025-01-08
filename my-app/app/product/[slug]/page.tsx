@@ -10,7 +10,7 @@ import { fetchProducts } from "@/app/api/search/productRout";
 // types.ts
 export interface Product {
   id: number;
-  name: string | undefined;
+  name: string |undefined;
   slug: string;
   image: string;
   description: string;

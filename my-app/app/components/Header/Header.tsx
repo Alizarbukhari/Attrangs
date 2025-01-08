@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useWishlist } from '../context/WishlistContext';
+import { useWishlist } from '../context/useWishList';
 
 const Header1: React.FC = () => {
   const { wishlist } = useWishlist();

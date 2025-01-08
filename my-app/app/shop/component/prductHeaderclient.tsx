@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Button from './button';
-import SearchBar from './productSearchBar';
 
 export function ProductheaderClient() {
   const [showFilters, setShowFilters] = useState(false); // State to toggle visibility of filters
@@ -21,7 +20,7 @@ export function ProductheaderClient() {
       {/* Conditionally render SearchBar and ensure it has the same width as the container */}
       {showFilters && (
         <div className="w-full ml-4"> {/* Ensure the SearchBar has the same width as the container */}
-          <SearchBar />
+      
         </div>
       )}
     </div>
