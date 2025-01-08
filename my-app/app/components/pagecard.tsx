@@ -1,11 +1,9 @@
-// components/PageCard.tsx
-
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import WishlistButton from './whishlist_button'; // Import the Client Component
-import Cart_Button from './cart_button'; // Ensure this is also a Client Component if it handles interactivity
-
+import WishlistButton from './whishlist_button'; // Client Component
+import Cart_Button from './cart_button'; // Client Component
+import { supabaseKey } from '../utils/config';
 import { Product } from '../types/wishListType';
 
 interface PageCardProps extends Product {}
@@ -17,13 +15,18 @@ const PageCard: React.FC<PageCardProps> = (props) => {
         {/* Image */}
         <div className="w-full h-96 relative group">
           <Image
-            src={props.image}
+            src={`${supabaseKey}${props.image}`}
             alt={`Product ${props.id}`}
-            fill
+            layout="fill"
+            objectFit="cover"
             className="rounded"
+            placeholder="blur"
+            blurDataURL="/path/to/placeholder.jpg" // Add placeholder image if needed
           />
+
           {/* Transparent overlay for hover effect */}
           <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded"></div>
+
           {/* Text in the center */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white border border-white px-6 py-3 rounded opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <Link href={`/product/${props.slug}`}>
@@ -68,13 +71,10 @@ const PageCard: React.FC<PageCardProps> = (props) => {
             {/* Wishlist */}
             <WishlistButton product={props} />
             {/* Cart Button */}
-            <Cart_Button product={props}   /> {/* Ensure Cart_Button is a Client Component if needed */}
+            <Cart_Button product={props} />
           </div>
         </div>
       </div>
-
-      {/* Show the Add to Cart Modal if showCart is true */}
-      {/* Since state is managed in Client Component, handle modals within those */}
     </div>
   );
 };

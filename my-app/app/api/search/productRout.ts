@@ -1,11 +1,14 @@
 export interface Product {
   id: number;
-  name: string;
-  slug: string;
   image: string;
-  description: string;
+  oldPrice: string;
+  discount: string;
   price: string;
-  category?: string;
+  description: string;
+  link: string;
+  category?:string
+  slug?:string
+  name?:string 
 }
 
 export const fetchProducts = async (): Promise<Product[]> => {

@@ -25,7 +25,7 @@ SUPABASE_SERVICE_ROLE_TOKEN = os.getenv("SUPABASE_SERVICE_ROLE_TOKEN")
 
 @router4.get("/product/{slug}")
 def get_product(slug: str, db: Session = Depends(get_session)):
-    product = db.query(Product).filter(Product.slug == slug).first()
+    product = db.query(Product).filter(Product.slug == slug).first() # type: ignore
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
@@ -132,7 +132,7 @@ def get_products(
         raise HTTPException(status_code=500, detail=f"Error fetching products: {str(e)}")
 
 @router4.get("/products/{product_id}", response_model=Product)
-def get_product(product_id: int, session: Session = Depends(get_session)):
+def get_producting(product_id: int, session: Session = Depends(get_session)):
     product = session.get(Product, product_id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -173,7 +173,6 @@ def delete_product(product_id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=500, detail=f"Error deleting product: {str(e)}")
 
 
-
 @router4.post("/products/with-image")
 async def create_product_with_image(
     name: str,
@@ -188,7 +187,7 @@ async def create_product_with_image(
     file: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
-    image_url = None
+    filename = None  # Only filename will be saved in DB
     if file:
         headers = {
             "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_TOKEN}",
@@ -202,7 +201,7 @@ async def create_product_with_image(
         if file_exists:
             unique_filename = f"{uuid.uuid4()}_{original_filename}"
         else:
-            unique_filename = original_filename
+            unique_filename = original_filename # type : ignore
 
         url = f"{SUPABASE_ENDPOINT}/storage/v1/object/{SUPABASE_BUCKET_NAME}/{unique_filename}"
 
@@ -211,7 +210,8 @@ async def create_product_with_image(
         response = await upload_with_retry(file_content, url, headers)
 
         if response.status_code in (200, 201):
-            image_url = f"{SUPABASE_ENDPOINT}/storage/v1/object/public/{SUPABASE_BUCKET_NAME}/{unique_filename}"
+            # Save only the filename in the database
+            filename = unique_filename
 
     product_data = {
         "name": name,
@@ -219,7 +219,7 @@ async def create_product_with_image(
         "price": price,
         "description": description,
         "category": category,
-        "image": image_url,
+        "image": filename,  # Only filename saved here
         "old_price": old_price,
         "discount": discount,
         "stock": stock
