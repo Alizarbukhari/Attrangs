@@ -102,6 +102,7 @@ def create_product(product: ProductCreate, session: Session = Depends(get_sessio
 @router4.get("/products", response_model=List[Product])
 def get_products(
     session: Session = Depends(get_session),
+    category: Optional[str] = Query(None, description="Filter by category"),
     sort_by: Optional[str] = Query("created_at", description="Sort by field"),
     order: Optional[str] = Query("asc", description="Order: asc or desc"),
     min_price: Optional[float] = Query(None, description="Minimum price"),
@@ -109,6 +110,10 @@ def get_products(
 ):
     try:
         query = select(Product)
+
+        # Apply category filtering
+        if category:
+            query = query.where(Product.category == category)
 
         # Apply price filtering
         if min_price is not None:
@@ -126,7 +131,7 @@ def get_products(
             else:
                 query = query.order_by(sort_column.asc())
 
-        products = session.exec(query).all()
+        products = session.execute(query).scalars().all()
         return products
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching products: {str(e)}")
@@ -183,6 +188,7 @@ async def create_product_with_image(
     old_price: float = None,  # type: ignore
     discount: str = None,  # type: ignore
     stock: float = None,  # type: ignore
+    sale: bool = False,  # type: ignore
 
     file: UploadFile = File(None),
     session: Session = Depends(get_session)
@@ -201,7 +207,7 @@ async def create_product_with_image(
         if file_exists:
             unique_filename = f"{uuid.uuid4()}_{original_filename}"
         else:
-            unique_filename = original_filename # type : ignore
+            unique_filename = original_filename # type: ignore
 
         url = f"{SUPABASE_ENDPOINT}/storage/v1/object/{SUPABASE_BUCKET_NAME}/{unique_filename}"
 
@@ -222,7 +228,8 @@ async def create_product_with_image(
         "image": filename,  # Only filename saved here
         "old_price": old_price,
         "discount": discount,
-        "stock": stock
+        "stock": stock,
+        "sale" :sale
     }
 
     db_product = Product(**product_data)

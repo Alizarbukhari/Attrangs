@@ -3,7 +3,7 @@ import Card from "./components/card"
 import Header from "./components/header"
 import More_Button from "./components/more_button"
 import Navbar1 from "./components/navbar1"
-import SlideImages from "./components/slideImages"
+import SlideImagesServer from "./components/slideImages"
 import Text1 from "./components/text1"
 import Title_Landingpage from "./components/title_landingpage"
 
@@ -88,7 +88,7 @@ export default function Home() {
 
 <Text1 title ="아뜨랑스는" description="화면너머의 여러분에게 따뜻한 쇼핑메이트이고 싶습니다." brdescription="일상에 스며드는 실용적인 옷들부터" p1="가장 빛이 나야하는 순간까지 언제나 함께 하겠습니다."/>
 
-<SlideImages/>
+<SlideImagesServer/>
 <Title_Landingpage title="오늘출발.오늘도착.새벽도착🚚" dic="오늘출발"/>
 
 {/* card div start */}

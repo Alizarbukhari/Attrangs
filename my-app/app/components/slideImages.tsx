@@ -1,67 +1,63 @@
-"use client"
-import React from 'react'
-import Image from 'next/image'
-import { slideData } from '../data/slideImageData'
+// components/SlideImagesServer.tsx
+import React from 'react';
+import { fetchProductsByCategory,Product } from '../api/search/productRout';
+import SlideImagesClient from './slideImagesClient';
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react'
+const categories: Array<'dresses' | 'skirts' | 'top' | 'outerwear' | 'sweats-hodies'> = [
+  'dresses',
+  'skirts',
+  'top',
+  'outerwear',
+  'sweats-hodies', // Ensure correct spelling
+];
 
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/autoplay'
-import 'swiper/css/pagination'
+const SlideImagesServer: React.FC = async () => {
+  try {
+    // Har category ke liye latest product fetch karein
+    const latestProductsPromises = categories.map(async (category) => {
+      const products = await fetchProductsByCategory(category);
+      console.log(`Category: ${category}, Products Fetched: ${products.length}`);
+      if (products.length === 0) return null;
 
-// Import required modules
-import { Autoplay } from 'swiper/modules'
+      // Latest product identify karein using 'updated_at' ya 'created_at'
+      const latestProduct = products
+        .filter(p => p.updated_at || p.created_at) // Ensure there is a date
+        .sort((a, b) => {
+          const dateA = new Date(a.updated_at ?? a.created_at ?? '1970-01-01').getTime();
+          const dateB = new Date(b.updated_at ?? b.created_at ?? '1970-01-01').getTime();
+          return dateB - dateA; // Descending order
+        })[0];
 
-export default function SlideImages() {
-  return (
-    <div className='px-12'>
-      <Swiper
-        // Configure Swiper to use modules
-        modules={[Autoplay]}
-        spaceBetween={20}
-        slidesPerView={1}
-        // navigation  {/* Removed navigation prop */}
-        pagination={{ clickable: false }}
-        loop={true}
-        autoplay={{
-          delay: 10000, 
-          disableOnInteraction: false,
-        }}
-        breakpoints={{
-         
-          640: {
-            slidesPerView: 2,
-          },
-          768: {
-            slidesPerView: 3,
-          },
-          1024: {
-            slidesPerView: 4,
-          },
-        }}
-        className='mySwiper'
-      >
-        {slideData.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className='flex flex-col justify-center w-full mb-4'>
-              <div className='h-[192px]  w-full'>
-                <Image 
-                  src={item.image} 
-                  alt={item.alt} 
-                  width={300} 
-                  height={192} 
-                  className='w-full h-full object-cover'
-                />
-              </div>
-              <div className='flex justify-center items-center text-center mt-2'>
-                {item.title}
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  )
-}
+      console.log(`Latest Product for ${category}:`, latestProduct);
+      return latestProduct;
+    });
+
+    const latestProductsWithNull = await Promise.all(latestProductsPromises);
+    // Null values ko hata dein (agar koi category mein product nahi hai)
+    const latestProducts: Product[] = latestProductsWithNull.filter(
+      (product): product is Product => product !== null
+    );
+
+    console.log('Final Latest Products:', latestProducts); // Debugging
+
+    // Remove duplicates if any
+    const uniqueLatestProducts: Product[] = [];
+    const seenIds = new Set<number>();
+
+    latestProducts.forEach(product => {
+      if (!seenIds.has(product.id)) {
+        uniqueLatestProducts.push(product);
+        seenIds.add(product.id);
+      }
+    });
+
+    console.log('Unique Latest Products:', uniqueLatestProducts); // Debugging
+
+    return <SlideImagesClient products={uniqueLatestProducts} />;
+  } catch (error) {
+    console.error(error);
+    return <div>Error loading products.</div>;
+  }
+};
+
+export default SlideImagesServer;

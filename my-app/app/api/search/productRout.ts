@@ -1,3 +1,4 @@
+// types/Product.ts
 export interface Product {
   id: number;
   image: string;
@@ -6,10 +7,13 @@ export interface Product {
   price: string;
   description: string;
   link: string;
-  category?:string
-  slug?:string
-  name?:string 
+  category?: string;
+  slug?: string;
+  name?: string;
+  updated_at?: string; // Add this field
+  created_at?: string; // Optional, agar available ho
 }
+
 
 export const fetchProducts = async (): Promise<Product[]> => {
   try {
@@ -34,6 +38,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
   }
 };
 
+
 export const fetchProductsByCategory = async (category: string): Promise<Product[]> => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/products?category=${category}`, {
@@ -45,13 +50,13 @@ export const fetchProductsByCategory = async (category: string): Promise<Product
       return []; // Return an empty array to handle gracefully
     }
 
-    const data = await response.json();
+    const data: Product[] = await response.json();
     return data;
   } catch (error) {
     if (error instanceof Error) {
-        console.error(`Error fetching products for category ${category}:`, error.message);
+      console.error(`Error fetching products for category ${category}:`, error.message);
     } else {
-        console.error(`Unexpected error fetching products for category ${category}:`, error);
+      console.error(`Unexpected error fetching products for category ${category}:`, error);
     }
     return []; // Return an empty array in case of an error
   }
