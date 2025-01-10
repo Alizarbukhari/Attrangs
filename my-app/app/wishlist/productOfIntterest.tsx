@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaTrashAlt } from 'react-icons/fa'; // Icon for removing from wishlist
 import { toast } from 'react-toastify'; // For toast notifications
-
+import { supabaseKey } from '../utils/config';
 interface Product {
   id: number;
   image: string;
@@ -48,7 +48,7 @@ const ProductsOfInterest: React.FC = () => {
                 {/* Image */}
                 <div className="w-full h-48 relative group">
                   <Image
-                    src={item.image}
+                    src={`${supabaseKey}${item.image}`}
                     alt={`Product ${item.id}`}
                     fill
                     className="rounded"

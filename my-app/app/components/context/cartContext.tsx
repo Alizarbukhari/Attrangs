@@ -51,7 +51,6 @@ export const CartProvider: React.FC<ProviderProps> = ({ children }) => {
   }, [state, hydrated]);
 
   if (!hydrated) {
-    // Optionally, render a loading indicator or nothing to prevent hydration mismatch
     return null;
   }
 

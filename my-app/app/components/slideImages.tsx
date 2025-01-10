@@ -1,63 +1,135 @@
-// components/SlideImagesServer.tsx
-import React from 'react';
-import { fetchProductsByCategory,Product } from '../api/search/productRout';
-import SlideImagesClient from './slideImagesClient';
+"use client";
 
-const categories: Array<'dresses' | 'skirts' | 'top' | 'outerwear' | 'sweats-hodies'> = [
-  'dresses',
-  'skirts',
-  'top',
-  'outerwear',
-  'sweats-hodies', // Ensure correct spelling
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/pagination';
+import { Autoplay } from 'swiper/modules';
+import { fetchProductsByCategory, Product } from "@/app/api/search/productRout";
+import { supabaseKey } from '../utils/config';
+
+// Define the categories you want to display and their respective links
+const categories: { name: string; link: string }[] = [
+  { name: 'dresses', link: 'dresses' },
+  { name: 'skirts', link: 'skirts' },
+  { name: 'top', link: 'tops' },
+  { name: 'outerwear', link: 'outerwear' },
+  { name: 'swearts-hodis', link: 'sweatshirts-&-Hoodies' },
+  { name: 'pants', link: 'pants' }
+
 ];
 
-const SlideImagesServer: React.FC = async () => {
-  try {
-    // Har category ke liye latest product fetch karein
-    const latestProductsPromises = categories.map(async (category) => {
-      const products = await fetchProductsByCategory(category);
-      console.log(`Category: ${category}, Products Fetched: ${products.length}`);
-      if (products.length === 0) return null;
+interface CategorySlide {
+  category: string;
+  product?: Product;
+}
 
-      // Latest product identify karein using 'updated_at' ya 'created_at'
-      const latestProduct = products
-        .filter(p => p.updated_at || p.created_at) // Ensure there is a date
-        .sort((a, b) => {
-          const dateA = new Date(a.updated_at ?? a.created_at ?? '1970-01-01').getTime();
-          const dateB = new Date(b.updated_at ?? b.created_at ?? '1970-01-01').getTime();
-          return dateB - dateA; // Descending order
-        })[0];
+const SlideImages: React.FC = () => {
+  const [categorySlides, setCategorySlides] = useState<CategorySlide[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-      console.log(`Latest Product for ${category}:`, latestProduct);
-      return latestProduct;
-    });
+  useEffect(() => {
+    // Function to fetch one product per category
+    const fetchCategorySlides = async () => {
+      try {
+        const fetchPromises = categories.map(async (category) => {
+          const products = await fetchProductsByCategory(category.name, 1);
+          return {
+            category: category.link,
+            product: products[0], // Get the first product
+          };
+        });
 
-    const latestProductsWithNull = await Promise.all(latestProductsPromises);
-    // Null values ko hata dein (agar koi category mein product nahi hai)
-    const latestProducts: Product[] = latestProductsWithNull.filter(
-      (product): product is Product => product !== null
-    );
-
-    console.log('Final Latest Products:', latestProducts); // Debugging
-
-    // Remove duplicates if any
-    const uniqueLatestProducts: Product[] = [];
-    const seenIds = new Set<number>();
-
-    latestProducts.forEach(product => {
-      if (!seenIds.has(product.id)) {
-        uniqueLatestProducts.push(product);
-        seenIds.add(product.id);
+        const results = await Promise.all(fetchPromises);
+        setCategorySlides(results);
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching category slides:", err);
+        setError("Failed to load category slides.");
+        setIsLoading(false);
       }
-    });
+    };
 
-    console.log('Unique Latest Products:', uniqueLatestProducts); // Debugging
+    fetchCategorySlides();
+  }, []);
 
-    return <SlideImagesClient products={uniqueLatestProducts} />;
-  } catch (error) {
-    console.error(error);
-    return <div>Error loading products.</div>;
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-64'>
+        <p className='text-gray-500'>Loading slides...</p>
+      </div>
+    );
   }
+
+  if (error) {
+    return (
+      <div className='flex justify-center items-center h-64'>
+        <p className='text-red-500'>{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className='px-12'>
+      <Swiper
+        modules={[Autoplay]}
+        spaceBetween={20}
+        slidesPerView={1}
+        pagination={{ clickable: false }}
+        loop={true}
+        autoplay={{
+          delay: 5000, 
+          disableOnInteraction: false,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+        className='mySwiper'
+      >
+        {categorySlides.map((slide, index) => {
+          if (!slide.product) {
+            // If no product found for the category, skip rendering this slide
+            return null;
+          }
+
+          return (
+            <SwiperSlide key={index}>
+              <Link href={`/category/${slide.category}`} passHref>
+                <li className='block'>
+                  <div className='flex flex-col justify-center w-full mb-4'>
+                    <div className='h-[192px] w-full'>
+                      <Image 
+                        src={`${supabaseKey}${slide.product.image}`}
+                        alt={slide.product.name || slide.category} 
+                        width={300} 
+                        height={192} 
+                        className='w-full h-full object-cover'
+                      />
+                    </div>
+                    <div className='flex justify-center items-center text-center mt-2'>
+                      <p className='text-black text-lg font-semibold capitalize'>{slide.category.replace('-', ' ')}</p>
+                    </div>
+                  </div>
+                </li>
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    </div>
+  );
 };
 
-export default SlideImagesServer;
+export default SlideImages;

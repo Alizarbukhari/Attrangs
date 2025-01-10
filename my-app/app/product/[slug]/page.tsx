@@ -3,6 +3,7 @@ import Image from "next/image";
 import Blog_Page_Navigation from "@/app/components/blog_page_navigation";
 import Blog_Custom_Model from "@/app/components/blog_custom_model";
 import { fetchProducts } from "@/app/api/search/productRout";
+import { supabaseKey } from "@/app/utils/config";
 
 
 
@@ -10,10 +11,10 @@ import { fetchProducts } from "@/app/api/search/productRout";
 // types.ts
 export interface Product {
   id: number;
-  name: string |undefined;
-  slug: string;
-  image: string;
-  description: string;
+  name?: string |undefined;
+  slug?: string;
+  image?: string;
+  description?: string;
   price: string;
   category?: string;
 }
@@ -35,7 +36,7 @@ async function fetchProduct(slug: string): Promise<Product | null> {
 export default async function Products({ params }: { params: { slug: string } }) {
   let products_data: Product[] = [];
   try {
-    products_data = await fetchProducts();
+    products_data= await fetchProducts();
   } catch (error) {
     return (
       <div className="w-full flex justify-center items-center h-64">
@@ -78,8 +79,8 @@ export default async function Products({ params }: { params: { slug: string } })
         <div className="flex flex-col gap-2">
           <div className="w-full md:w-[750px] h-[400px] md:h-[1000px]">
             <Image
-              src={product.image}
-              width={500}
+            src={`${supabaseKey}${product.image}`}
+            width={500}
               height={500}
               alt={product.name}
               className="w-full h-full object-cover"
@@ -87,7 +88,7 @@ export default async function Products({ params }: { params: { slug: string } })
           </div>
           <div className="w-[200px] h-[200px]">
             <Image
-              src={product.image}
+            src={`${supabaseKey}${product.image}`}
               width={300}
               height={300}
               alt={product.name}
@@ -129,7 +130,7 @@ export default async function Products({ params }: { params: { slug: string } })
 
       {/* Related Products Navigation */}
       <div>
-        <Blog_Page_Navigation product={related_products} />
+        <Blog_Page_Navigation product={related_products} image = {product.image} />
       </div>
     </div>
   );

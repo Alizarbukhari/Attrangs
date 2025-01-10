@@ -228,24 +228,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        {/* Social Login */}
-        <div className="mt-8 text-center">
-          <p className="text-sm font-bold text-gray-800 mb-4">Log in with another account</p>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center p-2 hover:bg-gray-50 rounded"
-            onClick={handleGoogleLogin}
-            aria-label="Log in with Google"
-          >
-            <Image
-              src="/images/google.webp"
-              alt="Google Login"
-              width={50}
-              height={50}
-              className="object-contain"
-            />
-          </button>
-        </div>
+        
       </div>
     </div>
   )

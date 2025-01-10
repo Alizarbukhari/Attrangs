@@ -4,10 +4,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import Image from 'next/image';
+import { supabaseKey } from '@/app/utils/config';
+
 
 interface Product {
   id: number;
   name: string;
+  image?:string
   slug: string;
   description?: string;
   price: number;
@@ -86,13 +90,29 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
           {isLoading ? (
             <div className="text-center text-[#877b73]">Searching...</div>
           ) : (
+            
             results.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {results.map((product) => (
                   <div key={product.id} className="border p-3 rounded">
-                    <a href={`/product/${product.slug}`} className="block">
-                      <h3 className="font-medium text-[#877b73]">{product.name}</h3>
+                    <a href={`/product/${product.slug}`} className="block"> 
+                    <div className='flex gap-2'>
+                      <div className='w-[48px] h-[48px]'>
+                        <Image 
+                      src={`${supabaseKey}${product.image}`}
+                      alt={product.name}
+                      width={50}
+                      height={50}
+                      className="w-full h-full "
+                      />
+                     
+                      </div>
+                      <div>
+                      <h3 className="font-medium text-[#877b73]">{product.description}</h3>
                       <p className="text-sm text-gray-600">${product.price}</p>
+                      </div>
+                    </div>
+                      
                     </a>
                   </div>
                 ))}

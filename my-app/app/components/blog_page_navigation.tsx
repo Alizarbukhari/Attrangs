@@ -16,7 +16,7 @@ export default function Blog_Page_Navigation(prop:any) {
       return <div><Related_Product product_data={prop.product} /></div>;
     }
     if (activePage === "details") {
-      return <div><Blog_Detail/></div>;
+      return <div><Blog_Detail image = {prop.image}/></div>;
     }
     if (activePage === "reviews") {
       return <div className=""><Blog_Review/></div>;

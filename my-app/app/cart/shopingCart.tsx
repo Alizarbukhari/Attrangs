@@ -3,7 +3,6 @@
 'use client';
 
 import React from 'react';
-import Card from '../components/castCard';
 import { CartItem } from '../types/cartType';
 import { useCart } from '../components/context/useCart';
 import WishlistButton from '../components/whishlist_button';
@@ -12,8 +11,30 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { CiCircleInfo } from 'react-icons/ci';
 import Image from 'next/image';
+import PageCard from '../components/pagecard';
+import { supabaseKey } from '../utils/config';
 
-const ShoppingCart: React.FC = () => {
+
+interface Product {
+  id: number;
+  image: string;
+  oldPrice: string;
+  discount: string;
+  price: string;
+  description: string;
+  link: string;
+  category?: string;
+  slug?: string;
+  name?: string;
+  updated_at?: string;
+  created_at?: string;
+}
+
+interface ShoppingCartProps {
+  filteredProducts: Product[];
+}
+
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ filteredProducts }) => {
   const { cart, updateQuantity, removeFromCart } = useCart();
 
   const handleIncrease = (id: number) => {
@@ -35,7 +56,6 @@ const ShoppingCart: React.FC = () => {
     toast.info(`${description} removed from cart`);
   };
 
-  // Calculate total price
   const totalPrice = cart.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
 
   return (
@@ -72,7 +92,6 @@ const ShoppingCart: React.FC = () => {
                 <input
                   className="w-[15px] h-[15px] mr-[4px]"
                   type="checkbox"
-                  // Implement select all functionality if needed
                 />
                 <label className="text-[10px] sm:text-xs">
                   Select all products
@@ -98,7 +117,6 @@ const ShoppingCart: React.FC = () => {
                       <input
                         className="mt-2 w-4 h-4 mr-4"
                         type="checkbox"
-                        // Implement individual item selection if needed
                       />
                       <div className="relative w-[120px] h-[120px] flex-shrink-0">
                         <Image
@@ -106,7 +124,7 @@ const ShoppingCart: React.FC = () => {
                           loading="lazy"
                           layout="fill"
                           className="rounded"
-                          src={item.image}
+                       src={`${supabaseKey}${item.image}`}
                         />
                       </div>
                       <div className="flex-1 ml-6">
@@ -156,7 +174,6 @@ const ShoppingCart: React.FC = () => {
                 </div>
               ))}
 
-              {/* Cart Summary */}
               <div className="w-[90%] sm:w-[60%] mx-auto mt-8">
                 <div className="bg-white p-6 rounded-lg">
                   <div className="flex justify-between items-center mb-4">
@@ -192,28 +209,20 @@ const ShoppingCart: React.FC = () => {
         </div>
       </div>
 
-      {/* Recommended Products */}
       <div className="w-full">
         <div className="text-center text-2xl font-semibold">
           Views are skyrocketing! Now on sale!
         </div>
         <div className="mt-24 px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {/* Replace with separate recommended products list */}
-            {/* Example: */}
-            {cart.map((product: CartItem) => (
-              <Card
-                key={product.id}
-                id={product.id}
-                image={product.image}
-                oldPrice={product.oldPrice}
-                discount={product.discount}
-                price={product.price}
-                description={product.description}
-                slug={product.slug}
-              />
-            ))}
-          </div>
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {filteredProducts.map((product) => (
+                <PageCard key={product.id} {...product} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">No Sale products available</p>
+          )}
         </div>
       </div>
     </div>

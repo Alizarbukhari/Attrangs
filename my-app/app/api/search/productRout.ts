@@ -10,8 +10,9 @@ export interface Product {
   category?: string;
   slug?: string;
   name?: string;
-  updated_at?: string; // Add this field
-  created_at?: string; // Optional, agar available ho
+  updated_at?: string; 
+  created_at?: string; 
+  sale?: boolean;
 }
 
 
@@ -23,7 +24,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
 
     if (!response.ok) {
       console.warn('Failed to fetch products: Response status', response.status);
-      return []; // Return an empty array to handle gracefully
+      return []; 
     }
 
     const data = await response.json();
@@ -34,20 +35,18 @@ export const fetchProducts = async (): Promise<Product[]> => {
     } else {
         console.error('Unexpected error fetching products:', error);
     }
-    return []; // Return an empty array in case of an error
-  }
+    return [];   }
 };
-
-
-export const fetchProductsByCategory = async (category: string): Promise<Product[]> => {
+export const fetchProductsByCategory = async (category: string, limit: number = 1): Promise<Product[]> => {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/products?category=${category}`, {
+    // Assuming your backend supports sorting by 'created_at' descending and limiting results
+    const response = await fetch(`http://127.0.0.1:8000/products?category=${category}&sort=created_at_desc&limit=${limit}`, {
       cache: 'no-store',
     });
 
     if (!response.ok) {
       console.warn(`Failed to fetch products for category: ${category} - Response status`, response.status);
-      return []; // Return an empty array to handle gracefully
+      return []; 
     }
 
     const data: Product[] = await response.json();
@@ -58,6 +57,6 @@ export const fetchProductsByCategory = async (category: string): Promise<Product
     } else {
       console.error(`Unexpected error fetching products for category ${category}:`, error);
     }
-    return []; // Return an empty array in case of an error
+    return []; 
   }
 };
