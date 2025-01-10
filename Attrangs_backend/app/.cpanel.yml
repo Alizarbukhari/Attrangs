@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - curl -sSL https://install.python-poetry.org | python3 -  # Poetry install
+    - poetry install  # Install dependencies using Poetry
+    - uvicorn app.main:app --host 0.0.0.0 --port 8000  # Run FastAPI app with Uvicorn
