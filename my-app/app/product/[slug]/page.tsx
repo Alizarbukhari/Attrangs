@@ -82,7 +82,7 @@ export default async function Products({ params }: { params: { slug: string } })
             src={`${supabaseKey}${product.image}`}
             width={500}
               height={500}
-              alt={product.name}
+              alt="product"
               className="w-full h-full object-cover"
             />
           </div>
@@ -91,7 +91,7 @@ export default async function Products({ params }: { params: { slug: string } })
             src={`${supabaseKey}${product.image}`}
               width={300}
               height={300}
-              alt={product.name}
+              alt="product"
               className="w-full h-full object-cover"
             />
           </div>

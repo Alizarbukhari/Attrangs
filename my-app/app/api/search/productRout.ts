@@ -13,6 +13,7 @@ export interface Product {
   updated_at?: string; 
   created_at?: string; 
   sale?: boolean;
+  order_quantity?:number;
 }
 
 

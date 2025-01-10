@@ -189,7 +189,7 @@ async def create_product_with_image(
     discount: str = None,  # type: ignore
     stock: float = None,  # type: ignore
     sale: bool = False,  # type: ignore
-
+    order_quantity:int = None,
     file: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
@@ -229,7 +229,10 @@ async def create_product_with_image(
         "old_price": old_price,
         "discount": discount,
         "stock": stock,
-        "sale" :sale
+        "sale" :sale,
+        "order_quantity":order_quantity
+
+        
     }
 
     db_product = Product(**product_data)

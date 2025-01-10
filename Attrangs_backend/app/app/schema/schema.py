@@ -100,6 +100,7 @@ class Product(SQLModel, table=True):
     sale:bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+    order_quantity:Optional[int] = None
 
 class ProductCreate(BaseModel):
     name: str
@@ -112,7 +113,8 @@ class ProductCreate(BaseModel):
     discount: Optional[str] = None
     stock: Optional[float] = None
     sale : Optional[bool] = False
-
+    order_quantity:Optional[int] = None
+    
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     slug: Optional[str] = None
@@ -124,6 +126,7 @@ class ProductUpdate(BaseModel):
     discount: Optional[str] = None
     stock: Optional[float] = None
     sale : Optional[bool] = False
+    order_quantity:Optional[int] = None
 
     
     
